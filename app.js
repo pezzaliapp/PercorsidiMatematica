@@ -33,7 +33,7 @@
     let refreshing;
     navigator.serviceWorker.addEventListener('controllerchange', () => {
       if (refreshing) return;
-      window.location.reload();
+      try{ populatePaths(); }catch(e){}; window.location.reload();
       refreshing = true;
     });
   }
@@ -391,6 +391,7 @@
 
   // Wire UI
   document.addEventListener('DOMContentLoaded', function(){
+    try{ populatePaths(); }catch(e){}
     populatePaths();
     $('livello').addEventListener('change', populatePaths);
     $('menuBtn').addEventListener('click', function(){ hide('game'); show('intro'); window.scrollTo(0,0); });
