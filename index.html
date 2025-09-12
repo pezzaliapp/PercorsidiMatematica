@@ -141,6 +141,107 @@
 })();
 </script>
 
+  
+<script id="inline-fallback-engine">
+// Micro‑engine fallback (v6.3b) — runs if app.js didn't initialize
+(function(){
+  function $(id){return document.getElementById(id);}
+  function on(el,ev,fn){ if(el&&el.addEventListener){ el.addEventListener(ev,fn);} }
+
+  // Simple random helpers
+  function R(a,b){return Math.floor(Math.random()*(b-a+1))+a;}
+  function S(arr){ for(var i=arr.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)); var t=arr[i]; arr[i]=arr[j]; arr[j]=t;} return arr; }
+
+  // Minimal generators set (covers Matematica e Informatica di base)
+  function gAdd(){ var x=R(10,90),y=R(10,90),r=x+y,o=S([r,r+1,r-1,r+10]); return {p:x+' + '+y+' = ?',o:o,i:o.indexOf(r)};}
+  function gSub(){ var x=R(20,99),y=R(10,19),r=x-y,o=S([r,r+1,r-1,r+10]); return {p:x+' - '+y+' = ?',o:o,i:o.indexOf(r)};}
+  function gTab(){ var t=[2,5,10][R(0,2)],b=R(1,10),r=t*b,o=S([r,r+t,r-t,r+R(2,9)]); return {p:t+' × '+b+' = ?',o:o,i:o.indexOf(r)};}
+  function gPerc(){ var p=[10,20,25,50][R(0,3)],n=R(40,400),r=Math.round(n*p/100),o=S([r,r+5,Math.max(0,r-5),r+10]); return {p:p+'% di '+n+' = ?',o:o,i:o.indexOf(r)};}
+  function gPitag(){ var a=[3,5,6,8][R(0,3)], b=[4,12,8,15][R(0,3)], c=Math.round(Math.sqrt(a*a+b*b)), o=S([c,c+1,c-1,c+2]); return {p:'a='+a+', b='+b+' ⇒ c = ?',o:o,i:o.indexOf(c)};}
+  function gInfo(){ var qs=[{p:'Un browser serve per…',a:'Navigare su internet',o:['Navigare su internet','Stampare','Disegnare','Presentazioni']},{p:'Quale tasto crea uno spazio?',a:'Barra spaziatrice',o:['Barra spaziatrice','Invio','Shift','Esc']}]; var q=qs[R(0,qs.length-1)], o=q.o.slice(); S(o); return {p:q.p,o:o,i:o.indexOf(q.a)}; }
+
+  // Map percorsi → generator
+  var GEN = {
+    'Addizioni con cambio (semplici)': gAdd,
+    'Addizioni con cambio': gAdd,
+    'Sottrazioni con prestito (semplici)': gSub,
+    'Sottrazioni con prestito': gSub,
+    'Tabelline 2/5/10': gTab,
+    'Tabelline complete': gTab,
+    'Percentuali': gPerc,
+    'Pitagora': gPitag,
+    'Geometria: perimetro': gAdd, // segnaposto semplice
+    'Divisioni semplici': gTab,
+    'Frazioni equivalenti': gAdd,
+    'Decimali (somma)': gAdd,
+    'Area (rettangolo/triangolo)': gAdd,
+    'Proporzioni semplici': gAdd,
+    'Volume parallelepipedo': gAdd,
+    // Informatica
+    'Informatica: mouse e tastiera': gInfo,
+    'Informatica: file e cartelle': gInfo,
+    'Informatica: coding a blocchi': gInfo,
+    'Informatica: Internet e ricerca': gInfo,
+    'Informatica: ricerca avanzata': gInfo,
+    'Informatica: sicurezza (2FA)': gInfo,
+    'Informatica: sistemi operativi e software': gInfo,
+    'Informatica: reti e protocolli': gInfo,
+    'Informatica: basi di dati (concetti)': gInfo,
+    'Informatica: algoritmi e complessità (base)': gInfo,
+    'Informatica: sicurezza e privacy (avanzato)': gInfo
+  };
+
+  function active(){ return !window.startGame; } // if app.js didn't attach handlers
+
+  function start(){
+    var g=$('livello'), p=$('percorso'); if(!g||!p) return;
+    $('intro').classList.add('hidden'); $('summary').classList.add('hidden'); $('game').classList.remove('hidden');
+    $('gradeName').textContent = g.options[g.selectedIndex].textContent;
+    $('levelName').textContent = p.value || p.options[p.selectedIndex].textContent;
+    window.__stars = 0; window.__done = 0; window.__total = 8;
+    $('stars').textContent = 0; $('progress').textContent = 0; $('total').textContent = 8;
+    next(true);
+  }
+
+  function next(reset){
+    var p=$('percorso'); var key=p.value||p.options[p.selectedIndex].textContent; 
+    var gen = GEN[key] || gAdd;
+    var q = gen();
+    $('prompt').textContent = q.p;
+    $('choices').innerHTML='';
+    q.o.forEach(function(txt,idx){
+      var b=document.createElement('button'); b.type='button'; b.className='choice'; b.textContent=String(txt);
+      b.addEventListener('click', function(){
+        var ok = (idx===q.i); b.classList.add(ok?'correct':'wrong');
+        document.querySelectorAll('.choice').forEach(n=>n.disabled=true);
+        if(ok){ window.__stars+=1; window.__done+=1; $('stars').textContent=window.__stars; $('progress').textContent=window.__done; }
+        if(window.__done>=window.__total){ end(); } else { $('nextBtn').classList.remove('hidden'); $('nextBtn').onclick=function(){ $('nextBtn').classList.add('hidden'); next(false); }; }
+      }, {once:true});
+      $('choices').appendChild(b);
+    });
+  }
+
+  function end(){
+    $('game').classList.add('hidden'); $('summary').classList.remove('hidden');
+    $('finalStars').textContent = window.__stars.toFixed(1);
+    $('feedback').textContent = (window.__stars >= window.__total*0.9) ? 'Ottimo lavoro!' : (window.__stars >= window.__total*0.6) ? 'Ben fatto! Continua ad allenarti.' : 'Buon inizio! Riprova.';
+    $('againBtn').onclick = start; $('homeBtn').onclick = function(){ $('summary').classList.add('hidden'); $('intro').classList.remove('hidden'); };
+  }
+
+  // Attach fallback only if app.js non operativo dopo il DOMReady
+  document.addEventListener('DOMContentLoaded', function(){
+    setTimeout(function(){
+      if(active()){
+        on($('playBtn'),'click', start);
+        on($('menuBtn'),'click', function(){ $('game').classList.add('hidden'); $('intro').classList.remove('hidden'); });
+        on($('againBtn'),'click', start);
+        on($('homeBtn'),'click', function(){ $('summary').classList.add('hidden'); $('intro').classList.remove('hidden'); });
+      }
+    }, 120);
+  });
+})();
+</script>
+
   <script src="app.js"></script>
 </body>
 </html>
