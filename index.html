@@ -3,23 +3,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Percorsi di Matematica — PWA v5</title>
+  <title>Percorsi di Matematica — PWA v6.1</title>
   <link rel="manifest" href="manifest.json">
   <link rel="icon" sizes="192x192" href="icons/icon-192.png">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
   <meta name="theme-color" content="#0b5fff">
-  <meta name="description" content="Percorsi di Matematica per Primaria, Medie, Liceo — con categorie per anno.">
+  <meta name="description" content="Percorsi di Matematica per Primaria, Medie, Liceo — categorie per anno.">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div id="statusBar" class="status" style="display:none">
     Modalità LIM ATTIVA — <button id="updateBtn" class="secondary">Aggiorna App</button>
   </div>
+  <div id="updateNotice" class="notice" style="display:none">
+    <strong>Nuova versione disponibile.</strong> Aggiornamento in corso…
+  </div>
 
   <header>
-    <h1>📘 Percorsi di Matematica — PWA v5</h1>
+    <h1>📘 Percorsi di Matematica — PWA v6.1</h1>
     <div class="header-actions">
-      <a id="guideBtn" class="secondary" href="readme.html" target="_blank" style="text-decoration:none;display:inline-block;padding:10px 14px;border-radius:10px">Guida</a>
+      <a id="guideBtn" class="secondary" href="readme.html" target="_blank">Guida</a>
       <button id="limBtn" class="secondary" type="button">Modalità LIM</button>
       <button id="installBtn" hidden>Installa App</button>
     </div>
@@ -28,31 +31,11 @@
   <main>
     <section id="intro" class="card">
       <h2>Seleziona anno e percorso</h2>
-      <p class="lead">Ogni **anno** ha **categorie** coerenti con le Indicazioni Nazionali. Scegli l'anno, poi il percorso.</p>
+      <p class="lead">Ogni <strong>anno</strong> ha <strong>categorie</strong> coerenti con le Indicazioni Nazionali. Scegli l'anno, poi il <em>percorso</em>.</p>
 
       <div class="grid2">
         <label>Anno/Grado
-          <select id="livello">
-            <optgroup label="Primaria">
-              <option value="primaria1">1ª primaria</option>
-              <option value="primaria2" selected>2ª primaria</option>
-              <option value="primaria3">3ª primaria</option>
-              <option value="primaria4">4ª primaria</option>
-              <option value="primaria5">5ª primaria</option>
-            </optgroup>
-            <optgroup label="Medie">
-              <option value="media1">1ª media</option>
-              <option value="media2">2ª media</option>
-              <option value="media3">3ª media</option>
-            </optgroup>
-            <optgroup label="Liceo scientifico">
-              <option value="liceo1">1ª liceo</option>
-              <option value="liceo2">2ª liceo</option>
-              <option value="liceo3">3ª liceo</option>
-              <option value="liceo4">4ª liceo</option>
-              <option value="liceo5">5ª liceo</option>
-            </optgroup>
-          </select>
+          <select id="livello"></select>
         </label>
 
         <label>Percorso
@@ -63,6 +46,7 @@
       <div class="actions">
         <button id="playBtn" class="primary" type="button">Inizia l'avventura</button>
         <button id="howBtn" class="secondary" type="button">Come si gioca</button>
+        <button id="refreshPathsBtn" class="secondary" type="button">Ripristina percorsi</button>
       </div>
     </section>
 
@@ -71,7 +55,6 @@
       <ul>
         <li>Leggi la domanda e tocca la risposta corretta.</li>
         <li>Ogni risposta esatta vale una ⭐.</li>
-        <li>Le domande si adattano al <strong>percorso</strong> scelto.</li>
         <li>La <strong>Modalità LIM</strong> ingrandisce testi e pulsanti.</li>
       </ul>
       <button class="secondary" id="backIntro" type="button">Torna</button>

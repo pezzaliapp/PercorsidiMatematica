@@ -11,6 +11,7 @@ main{max-width:960px;margin:20px auto;padding:0 12px}
 .primary,.secondary,button{border:none;border-radius:10px;padding:10px 14px;font-weight:600;cursor:pointer}
 .primary{background:#0b5fff;color:white}
 .secondary{background:#e9eefc;color:#0b3fff}
+.notice{padding:8px 12px;background:#ecfeff;color:#065f46;text-align:center;border-bottom:1px solid #99f6e4;display:none}
 .hud{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:8px}
 .prompt{font-size:1.6rem;font-weight:800;margin:10px 0 14px;line-height:1.25}
 .choices{display:grid;grid-template-columns:repeat(2,minmax(120px,1fr));gap:10px}
