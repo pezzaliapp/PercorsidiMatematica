@@ -300,23 +300,29 @@
   var level=0, stars=0, done=0, total=8;
   var currentQuestion=null, currentRoute=[genAddCarry()], currentGradeKey='primaria2', currentPathName='Addizioni con cambio';
 
-  // Populate percorso select based on grade
+  
+  // Populate percorso select based on grade (robust)
   function populatePaths(){
-    var selGrade = $('livello').value;
-    var info = routeMap[selGrade];
+    var gradeSel = $('livello');
     var perSel = $('percorso');
+    if (!perSel) return;
+    var selGrade = (gradeSel && gradeSel.value) ? gradeSel.value : 'primaria2';
+    var info = (typeof routeMap !== 'undefined' && routeMap[selGrade]) ? routeMap[selGrade] : routeMap['primaria2'];
     perSel.innerHTML = '';
     var first = null;
-    for (var k in info.paths){
-      var opt = document.createElement('option');
-      opt.value = k;
-      opt.textContent = k;
-      perSel.appendChild(opt);
-      if(!first) first = k;
+    if (info && info.paths){
+      Object.keys(info.paths).forEach(function(k){
+        var opt = document.createElement('option');
+        opt.value = k;
+        opt.textContent = k;
+        perSel.appendChild(opt);
+        if (!first) first = k;
+      });
+      if (first) perSel.value = first;
     }
-    $('gradeName').textContent = info.name || selGrade;
-    perSel.value = first;
+    if ($('gradeName')) $('gradeName').textContent = (info && info.name) ? info.name : selGrade;
   }
+
 
   function startGame(){
     currentGradeKey = $('livello').value;
