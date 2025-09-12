@@ -182,7 +182,7 @@
   // Minimal sets for demo; altri anni possono essere aggiunti allo stesso modo.
 
   // ---------- UI/State ----------
-  function $(id){return document.getElementById(id);}
+  function $(id){return document.getElementById(id);} function g(id){try{return document.getElementById(id)}catch(e){return null}} function on(el,ev,fn){if(el&&el.addEventListener)el.addEventListener(ev,fn);}
   function show(id){$(id).classList.remove('hidden');}
   function hide(id){$(id).classList.add('hidden');}
 
@@ -288,30 +288,32 @@
   }
 
   // ---------- UI wires ----------
-  function $(id){return document.getElementById(id);}
+  function $(id){return document.getElementById(id);} function g(id){try{return document.getElementById(id)}catch(e){return null}} function on(el,ev,fn){if(el&&el.addEventListener)el.addEventListener(ev,fn);}
   document.addEventListener('DOMContentLoaded', function(){
+    try {
     // LIM
-    $('limBtn').addEventListener('click', function(){
+    on(g('limBtn'),'click', function(){
       document.body.classList.toggle('lim'); this.textContent = document.body.classList.contains('lim') ? 'LIM: ON' : 'Modalità LIM';
-      $('statusBar').style.display = document.body.classList.contains('lim') ? 'block' : 'none';
+      if(g('statusBar')) g('statusBar').style.display = document.body.classList.contains('lim') ? 'block' : 'none';
     });
-    $('updateBtn').addEventListener('click', function(){ if('caches' in window){ caches.keys().then(keys=>Promise.all(keys.map(k=>caches.delete(k)))).then(()=>location.reload(true)); } else { location.reload(true); } });
+    on(g('updateBtn'),'click', function(){ if('caches' in window){ caches.keys().then(keys=>Promise.all(keys.map(k=>caches.delete(k)))).then(()=>location.reload(true)); } else { location.reload(true); } });
 
     // Selects
-    fillGradeSelector();
-    populatePaths();
-    $('livello').addEventListener('change', populatePaths);
-    $('refreshPathsBtn').addEventListener('click', populatePaths);
+    try{fillGradeSelector();}catch(_){}
+    try{populatePaths();}catch(_){}
+    on(g('livello'),'change', populatePaths);
+    on(g('refreshPathsBtn'),'click', populatePaths);
 
     // Buttons
-    $('playBtn').addEventListener('click', startGame);
-    $('howBtn').addEventListener('click', function(){ hide('intro'); show('howto'); });
-    $('backIntro').addEventListener('click', function(){ hide('howto'); show('intro'); });
-    $('menuBtn').addEventListener('click', function(){ hide('game'); show('intro'); window.scrollTo(0,0); });
-    $('againBtn').addEventListener('click', startGame);
-    $('homeBtn').addEventListener('click', function(){ hide('summary'); show('intro'); });
-    $('skipBtn').addEventListener('click', function(){ stars=Math.max(0, stars-0.5); nextQuestion(false); });
-    $('nextBtn').addEventListener('click', function(){ nextQuestion(false); });
+    on(g('playBtn'),'click', startGame);
+    on(g('howBtn'),'click', function(){ hide('intro'); show('howto'); });
+    on(g('backIntro'),'click', function(){ hide('howto'); show('intro'); });
+    on(g('menuBtn'),'click', function(){ hide('game'); show('intro'); window.scrollTo(0,0); });
+    on(g('againBtn'),'click', startGame);
+    on(g('homeBtn'),'click', function(){ hide('summary'); show('intro'); });
+    on(g('skipBtn'),'click', function(){ stars=Math.max(0, stars-0.5); nextQuestion(false); });
+    on(g('nextBtn'),'click', function(){ nextQuestion(false); });
+  } catch(e) { try { try{fillGradeSelector();}catch(_){} try{populatePaths();}catch(_){} } catch(_){} }
   });
 
 })();
