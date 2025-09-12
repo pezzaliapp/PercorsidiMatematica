@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Guida — Percorsi di Matematica</title>
+  <title>Guida — Percorsi di Matematica (PWA v5)</title>
   <style>
     :root { --header-h: 64px; }
     *{box-sizing:border-box}
@@ -28,616 +28,91 @@
     .content code{background:#f6f8fa;padding:.2em .4em;border-radius:6px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
     .content pre{background:#f6f8fa;padding:12px;border-radius:8px;overflow:auto}
     .content hr{border:0;border-top:1px solid #d0d7de;margin:1.2em 0}
-    select#langSel{border-radius:10px;padding:6px 8px;border:none;font-weight:600;color:#0b5fff}
   </style>
 </head>
 <body>
   <header class="sticky">
-    <h1>Guida — Percorsi di Matematica</h1>
+    <h1>Guida — Percorsi di Matematica (PWA v5)</h1>
     <div class="actions">
       <a class="btn menu" href="index.html">Menu</a>
-      <label for="langSel" style="font-weight:600;margin-left:8px">🌍</label>
-      <select id="langSel" aria-label="Seleziona lingua">
-        <option value="it" selected>Italiano</option>
-        <option value="en">English</option>
-        <option value="de">Deutsch</option>
-        <option value="pt">Português</option>
-        <option value="fr">Français</option>
-        <option value="zh">中文</option>
-      </select>
     </div>
   </header>
 
-  <div id="content" class="content"></div>
+  <div class="content">
+    <h1>Percorsi di Matematica — PWA v5</h1>
+    <p>Applicazione didattica organizzata <strong>per anno scolastico</strong> con <strong>categorie</strong> coerenti con le
+    <strong>Indicazioni Nazionali</strong>. Utilizzabile come <strong>Progressive Web App (PWA)</strong> su <strong>PC, tablet, LIM, iPhone/iPad</strong>, anche <strong>offline</strong>.</p>
+    <hr/>
 
-  <script>
-    // ————— ITALIANO (originale) —————
-    const it = `
-<h1>Percorsi di Matematica — PWA v5</h1>
-<p>Gioco didattico <strong>per scuola primaria (classe seconda)</strong>: addizioni con cambio, sottrazioni con prestito, tabelline (2/5/10), geometria di base.
-Funziona come <strong>Progressive Web App (PWA)</strong>: utilizzabile su <strong>PC, tablet, LIM, iPhone</strong> anche <strong>offline</strong>.</p>
-<hr/>
-<h2>🎯 Obiettivi didattici</h2>
-<ul>
-  <li>Consolidare i <strong>numeri entro 100</strong> e il calcolo mentale.</li>
-  <li>Eseguire <strong>addizioni</strong> e <strong>sottrazioni</strong> con passaggio (cambio/prestito).</li>
-  <li>Introdurre le <strong>moltiplicazioni</strong> come <strong>addizioni ripetute</strong> (tabelline 2–5–10).</li>
-  <li>Riconoscere <strong>figure geometriche</strong> elementari e proprietà (lati/facce).</li>
-  <li>Favorire <strong>attenzione</strong>, <strong>motivazione</strong> e <strong>cooperazione</strong> tramite gioco.</li>
-</ul>
-<p><em>Riferimento Indicazioni Nazionali (MIM):</em> area <strong>Numeri</strong>, <strong>Spazio e figure</strong>, <strong>Problemi</strong>.</p>
-<hr/>
-<h2>👩‍🏫 A chi è adatto</h2>
-<ul>
-  <li><strong>Docenti</strong> di scuola primaria (soprattutto <strong>2ª</strong>; utile anche per 1ª come consolidamento e 3ª come ripasso).</li>
-  <li><strong>Alunni</strong> dai 7 agli 8 anni.</li>
-  <li>Situazioni d’aula con <strong>LIM</strong> o tablet; adatto anche a uso <strong>individuale</strong> a casa.</li>
-</ul>
-<hr/>
-<h2>🚀 Come si usa (docente)</h2>
-<ol>
-  <li>Apri la pagina web della PWA.</li>
-  <li>Nel <strong>Menu</strong> scegli il <strong>Percorso</strong> (Mix guidato / Addizioni / Sottrazioni / Tabelline / Geometria).</li>
-  <li>Premi <strong>Inizia l’avventura</strong>.</li>
-  <li>Gli alunni toccano la risposta: se è corretta, ottengono ⭐ e si avanza.</li>
-  <li>Il pulsante <strong>Menu</strong> riporta alla schermata iniziale per cambiare gioco in qualunque momento.</li>
-  <li><strong>Modalità LIM</strong> (opzionale): testi e pulsanti più grandi per la proiezione in classe.</li>
-</ol>
-<hr/>
-<h2>🧩 Giochi inclusi (v4.1)</h2>
-<ul>
-  <li><strong>Addizioni con cambio</strong>: es. <code>27 + 15 = ?</code></li>
-  <li><strong>Sottrazioni con prestito</strong>: es. <code>52 - 19 = ?</code></li>
-  <li><strong>Tabelline 2/5/10</strong>: es. <code>5 * 7 = ?</code></li>
-  <li><strong>Geometria base</strong>: domande su triangolo, quadrato, cubo (lati/facce).</li>
-</ul>
-<hr/>
-<h2>📱 PWA e modalità offline</h2>
-<ul>
-  <li>La PWA può essere <strong>installata</strong> (Android/Chrome, Desktop/Chrome/Edge).</li>
-  <li>Funziona <strong>offline</strong> grazie al <strong>Service Worker</strong>.</li>
-  <li>Bottone <strong>Aggiorna App</strong>: cancella la cache e ricarica i file (utile dopo un aggiornamento).</li>
-  <li><strong>iPhone/iPad</strong>: apri la prima volta in <strong>Safari</strong> (anche in modalità privata), poi aggiungi a <strong>Schermata Home</strong>.</li>
-</ul>
-<hr/>
-<h2>🛠️ Installazione sul proprio sito</h2>
-<ol>
-  <li>Copia tutti i file della cartella nella directory del tuo hosting (es. <code>/CacciaAiNumeriPWA/</code>).</li>
-  <li>Assicurati che la struttura resti intatta (<code>manifest.json</code>, <code>service-worker.js</code>, cartella <code>icons/</code>).</li>
-  <li>Apri l’URL pubblico (es. <code>https://tuodominio.it/CacciaAiNumeriPWA/</code>).</li>
-  <li>Per aggiornare client già in cache clicca <strong>Aggiorna App</strong> o apri in finestra <strong>privata</strong>.</li>
-</ol>
-<hr/>
-<h2>🔧 Risoluzione problemi (iPhone)</h2>
-<ul>
-  <li><strong>I pulsanti non rispondono</strong>: ricarica in <strong>finestra privata</strong> di Safari; poi tocca <strong>Aggiorna App</strong>.</li>
-  <li><strong>Vedo la versione vecchia</strong>: la cache di Safari è aggressiva → usa <strong>Aggiorna App</strong>; se serve, chiudi tutte le schede e riapri.</li>
-  <li><strong>Audio non parte</strong>: i suoni vengono sbloccati dopo il <strong>primo tap</strong> dell’utente (regola autoplay di iOS).</li>
-</ul>
-<hr/>
-<h2>🔒 Privacy</h2>
-<ul>
-  <li>Nessun tracciamento esterno, nessun backend.</li>
-  <li>Eventuali dati locali (in futuro: report docente) sono salvati in <strong>localStorage</strong> sul dispositivo dell’utente.</li>
-</ul>
-<hr/>
-<h2>🗺️ Roadmap</h2>
-<ul>
-  <li>⏱️ <strong>Timer</strong> grande per sfide a tempo.</li>
-  <li>🔔 <strong>Suoni</strong> (ding/buzzer) per feedback immediato.</li>
-  <li>📊 <strong>Report docente</strong>: log domande/risposte e punteggio per sessione (localStorage + esportazione CSV).</li>
-  <li>🌍 <strong>Multilingua</strong>: IT/EN/FR/DE/PT/ZH.</li>
-  <li>🧠 <strong>Nuovi moduli</strong>: frazioni equivalenti, misura (monete/tempo), problemi contestualizzati.</li>
-</ul>
-<hr/>
-<h2>🧪 Come estendere (sviluppatori)</h2>
-<p>I giochi sono generatori in <code>app.js</code> che ritornano oggetti del tipo:</p>
-<pre><code>return { name: "Titolo", prompt: "Domanda", choices: [..], correct: 0 };</code></pre>
-<p>Aggiungi un gioco:</p>
-<pre><code>function genMioGioco(){
-  return function(){
-    var domanda = "...";
-    var scelte = [/* ... */];
-    var corretta = 0;
-    return { name:"Titolo", prompt: domanda, choices: scelte, correct: corretta };
-  };
-}
-// Inserisci nel percorso
-routes.mix.push(genMioGioco());</code></pre>
-<hr/>
-<h2>👤 Crediti & Licenza</h2>
-<ul>
-  <li>© 2025 <strong>PezzaliAPP</strong> — Prototipo educativo.</li>
-  <li>Licenza: uso libero a fini didattici (citare la fonte).</li>
-</ul>
-`;
+    <h2>🎯 Obiettivi</h2>
+    <ul>
+      <li><strong>Primaria (1ª–5ª):</strong> progressione dai numeri entro 20 fino a frazioni, decimali, percentuali; perimetri/aree e problemi.</li>
+      <li><strong>Medie (1ª–3ª):</strong> equazioni di 1° grado, teorema di Pitagora, percentuali e proporzioni.</li>
+      <li><strong>Liceo scientifico (1ª–5ª):</strong> funzioni lineari e quadratiche, trigonometria (angoli notevoli); estensibile a logaritmi, limiti, derivate e integrali.</li>
+    </ul>
+    <p><em>Riferimenti MIM:</em> Numeri; Spazio e figure; Relazioni e funzioni; Dati e previsioni; Problemi.</p>
+    <hr/>
 
-    // ————— ENGLISH —————
-    const en = `
-<h1>Number Hunt — PWA v5</h1>
-<p>Educational game for <strong>primary school (grade 2)</strong>: addition with carry, subtraction with borrowing, times tables (2/5/10), basic geometry.
-Works as a <strong>Progressive Web App (PWA)</strong>: usable on <strong>PC, tablet, IWB, iPhone</strong>, also <strong>offline</strong>.</p>
-<hr/>
-<h2>🎯 Learning goals</h2>
-<ul>
-  <li>Consolidate <strong>numbers up to 100</strong> and mental arithmetic.</li>
-  <li>Perform <strong>addition</strong> and <strong>subtraction</strong> with carry/borrow.</li>
-  <li>Introduce <strong>multiplication</strong> as <strong>repeated addition</strong> (2–5–10 tables).</li>
-  <li>Recognise simple <strong>geometric shapes</strong> and properties (sides/faces).</li>
-  <li>Foster <strong>attention</strong>, <strong>motivation</strong> and <strong>cooperation</strong> through play.</li>
-</ul>
-<p><em>Curriculum reference (IT):</em> <strong>Numbers</strong>, <strong>Space and Shapes</strong>, <strong>Problem Solving</strong>.</p>
-<hr/>
-<h2>👩‍🏫 Who is it for</h2>
-<ul>
-  <li><strong>Teachers</strong> (best for grade 2; also suitable for grade 1 consolidation and grade 3 revision).</li>
-  <li><strong>Students</strong> aged 7–8.</li>
-  <li>Use in class with <strong>IWB</strong> or tablets; also suitable for <strong>individual</strong> use at home.</li>
-</ul>
-<hr/>
-<h2>🚀 How to use (teacher)</h2>
-<ol>
-  <li>Open the PWA page.</li>
-  <li>In the <strong>Menu</strong>, choose a <strong>Path</strong> (Guided Mix / Addition / Subtraction / Tables / Geometry).</li>
-  <li>Tap <strong>Start</strong>.</li>
-  <li>Pupils tap the answer: if correct, they earn ⭐ and move forward.</li>
-  <li>The <strong>Menu</strong> button brings you back to the start to switch game at any time.</li>
-  <li><strong>IWB mode</strong> (optional): larger text and buttons for projection.</li>
-</ol>
-<hr/>
-<h2>🧩 Included games (v4.1)</h2>
-<ul>
-  <li><strong>Addition with carry</strong>: e.g., <code>27 + 15 = ?</code></li>
-  <li><strong>Subtraction with borrowing</strong>: e.g., <code>52 - 19 = ?</code></li>
-  <li><strong>Times tables 2/5/10</strong>: e.g., <code>5 * 7 = ?</code></li>
-  <li><strong>Basic geometry</strong>: triangle, square, cube (sides/faces).</li>
-</ul>
-<hr/>
-<h2>📱 PWA and offline</h2>
-<ul>
-  <li>Installable (Android/Chrome, Desktop Chrome/Edge).</li>
-  <li>Works <strong>offline</strong> via <strong>Service Worker</strong>.</li>
-  <li><strong>Update App</strong> button clears cache and reloads files.</li>
-  <li><strong>iPhone/iPad</strong>: first open in <strong>Safari</strong> (private window recommended), then add to <strong>Home Screen</strong>.</li>
-</ul>
-<hr/>
-<h2>🛠️ Deploy on your website</h2>
-<ol>
-  <li>Upload all files to your hosting folder (e.g., <code>/CacciaAiNumeriPWA/</code>).</li>
-  <li>Keep structure intact (<code>manifest.json</code>, <code>service-worker.js</code>, <code>icons/</code> folder).</li>
-  <li>Open the public URL.</li>
-  <li>Use <strong>Update App</strong> or a <strong>private window</strong> to refresh cached clients.</li>
-</ol>
-<hr/>
-<h2>🔧 Troubleshooting (iPhone)</h2>
-<ul>
-  <li><strong>Buttons not responding</strong>: reload in a <strong>private window</strong>; then tap <strong>Update App</strong>.</li>
-  <li><strong>Old version shown</strong>: Safari cache is aggressive → use <strong>Update App</strong>; if needed, close all tabs and reopen.</li>
-  <li><strong>No audio</strong>: sounds are unlocked after the <strong>first tap</strong> (iOS autoplay rule).</li>
-</ul>
-<hr/>
-<h2>🔒 Privacy</h2>
-<ul>
-  <li>No external tracking, no backend.</li>
-  <li>Any local data (future teacher report) stored in <strong>localStorage</strong> on the user device.</li>
-</ul>
-<hr/>
-<h2>🗺️ Roadmap</h2>
-<ul>
-  <li><strong>Timer</strong>, <strong>sounds</strong>, <strong>teacher report</strong>, <strong>multilingual</strong>.</li>
-</ul>
-<hr/>
-<h2>🧪 Extend (developers)</h2>
-<p>Games are generators in <code>app.js</code> returning:</p>
-<pre><code>{ name: "Title", prompt: "Question", choices: [..], correct: 0 }</code></pre>
-<p>Add a game:</p>
-<pre><code>function genMyGame(){
-  return function(){
-    var q = "...";
-    var opts = [/* ... */];
-    var correct = 0;
-    return { name:"Title", prompt:q, choices:opts, correct:correct };
-  };
-}
-routes.mix.push(genMyGame());</code></pre>
-<hr/>
-<h2>👤 Credits & License</h2>
-<ul>
-  <li>© 2025 <strong>PezzaliAPP</strong> — Educational prototype.</li>
-  <li>License: free for educational use (please cite the source).</li>
-</ul>
-`;
+    <h2>🧩 Percorsi inclusi</h2>
+    <h3>Primaria</h3>
+    <ul>
+      <li><strong>1ª primaria:</strong> Addizioni ≤20 · Sottrazioni ≤20 · Confronto numeri · Figure semplici</li>
+      <li><strong>2ª primaria:</strong> Addizioni con cambio · Sottrazioni con prestito · Tabelline 2/5/10 · Geometria: perimetro</li>
+      <li><strong>3ª primaria:</strong> Tabelline complete · Divisioni semplici · Perimetro figure · Problemi moltiplicativi</li>
+      <li><strong>4ª primaria:</strong> Frazioni equivalenti · Multipli e divisori · Decimali (somma) · Area rett./triang.</li>
+      <li><strong>5ª primaria:</strong> Percentuali · Proporzioni semplici · Volume parallelepipedo · Tempo e monete</li>
+    </ul>
 
-    // ————— DEUTSCH —————
-    const de = `
-<h1>Zahlenjagd — PWA v5</h1>
-<p>Lernspiel für die <strong>Grundschule (2. Klasse)</strong>: Addieren mit Übertrag, Subtrahieren mit Ausleihe, Einmaleins (2/5/10), grundlegende Geometrie.
-Funktioniert als <strong>Progressive Web App (PWA)</strong>: nutzbar auf <strong>PC, Tablet, Whiteboard, iPhone</strong>, auch <strong>offline</strong>.</p>
-<hr/>
-<h2>🎯 Lernziele</h2>
-<ul>
-  <li><strong>Zahlen bis 100</strong> festigen und Kopfrechnen üben.</li>
-  <li><strong>Additionen</strong> und <strong>Subtraktionen</strong> mit Übertrag/Ausleihe.</li>
-  <li><strong>Multiplikation</strong> als <strong>wiederholte Addition</strong> (2–5–10).</li>
-  <li>Einfache <strong>geometrische Figuren</strong> und Eigenschaften (Kanten/Flächen) erkennen.</li>
-  <li><strong>Aufmerksamkeit</strong>, <strong>Motivation</strong> und <strong>Kooperation</strong> durch Spiel fördern.</li>
-</ul>
-<p><em>Lehrplanbezug (IT):</em> Zahlen, Raum und Formen, Problemlösen.</p>
-<hr/>
-<h2>👩‍🏫 Für wen</h2>
-<ul>
-  <li><strong>Lehrkräfte</strong> (ideal 2. Klasse; auch 1./3. Klasse zum Festigen/Wiederholen).</li>
-  <li><strong>Schüler/innen</strong> von 7–8 Jahren.</li>
-  <li>Einsatz im Unterricht mit <strong>Whiteboard</strong>/Tablets sowie <strong>individuell</strong> zu Hause.</li>
-</ul>
-<hr/>
-<h2>🚀 Nutzung (Lehrkraft)</h2>
-<ol>
-  <li>PWA öffnen.</li>
-  <li><strong>Pfad</strong> wählen (Geführter Mix / Addition / Subtraktion / Einmaleins / Geometrie).</li>
-  <li><strong>Start</strong> tippen.</li>
-  <li>Antwort antippen: bei richtig ⭐ und weiter.</li>
-  <li>Mit <strong>Menü</strong> jederzeit zum Start zurück und Spiel wechseln.</li>
-  <li><strong>Whiteboard-Modus</strong> (optional): größere Texte/Buttons.</li>
-</ol>
-<hr/>
-<h2>🧩 Enthaltene Spiele (v4.1)</h2>
-<ul>
-  <li><strong>Additionen mit Übertrag</strong>: z. B. <code>27 + 15 = ?</code></li>
-  <li><strong>Subtraktionen mit Ausleihe</strong>: z. B. <code>52 - 19 = ?</code></li>
-  <li><strong>Einmaleins 2/5/10</strong>: z. B. <code>5 * 7 = ?</code></li>
-  <li><strong>Geometrie-Grundlagen</strong>: Dreieck, Quadrat, Würfel (Kanten/Flächen).</li>
-</ul>
-<hr/>
-<h2>📱 PWA & Offline</h2>
-<ul>
-  <li>Installierbar (Android/Chrome, Desktop Chrome/Edge).</li>
-  <li><strong>Offline</strong> dank <strong>Service Worker</strong>.</li>
-  <li><strong>App aktualisieren</strong> leert den Cache und lädt neu.</li>
-  <li><strong>iPhone/iPad</strong>: zuerst in <strong>Safari</strong> (privates Fenster empfohlen), dann zum <strong>Home-Bildschirm</strong> hinzufügen.</li>
-</ul>
-<hr/>
-<h2>🛠️ Bereitstellung auf Ihrer Website</h2>
-<ol>
-  <li>Alle Dateien in den Hosting-Ordner laden (z. B. <code>/CacciaAiNumeriPWA/</code>).</li>
-  <li>Struktur beibehalten (<code>manifest.json</code>, <code>service-worker.js</code>, Ordner <code>icons/</code>).</li>
-  <li>Öffentliche URL aufrufen.</li>
-  <li><strong>App aktualisieren</strong> oder privates Fenster verwenden, um Cache-Kunden zu aktualisieren.</li>
-</ol>
-<hr/>
-<h2>🔧 Fehlerbehebung (iPhone)</h2>
-<ul>
-  <li><strong>Buttons reagieren nicht</strong>: im <strong>Privatmodus</strong> neu laden; anschließend <strong>App aktualisieren</strong>.</li>
-  <li><strong>Alte Version</strong>: aggressiver Safari-Cache → <strong>App aktualisieren</strong>; ggf. alle Tabs schließen und neu öffnen.</li>
-  <li><strong>Kein Audio</strong>: Töne werden nach dem <strong>ersten Tipp</strong> freigeschaltet (iOS-Autoplay-Regel).</li>
-</ul>
-<hr/>
-<h2>🔒 Datenschutz</h2>
-<ul>
-  <li>Kein externes Tracking, kein Backend.</li>
-  <li>Lokale Daten (künftiger Lehrenden-Report) im <strong>localStorage</strong>.</li>
-</ul>
-<hr/>
-<h2>🗺️ Roadmap</h2>
-<ul>
-  <li><strong>Timer</strong>, <strong>Sounds</strong>, <strong>Lehrenden-Report</strong>, <strong>Mehrsprachigkeit</strong>.</li>
-</ul>
-<hr/>
-<h2>🧪 Erweitern (Entwickler)</h2>
-<p>Spiele sind Generatoren in <code>app.js</code>, die zurückgeben:</p>
-<pre><code>{ name: "Titel", prompt: "Frage", choices: [..], correct: 0 }</code></pre>
-<p>Beispiel:</p>
-<pre><code>function genMeinSpiel(){
-  return function(){
-    var frage = "...";
-    var antworten = [/* ... */];
-    var korrekt = 0;
-    return { name:"Titel", prompt:frage, choices:antworten, correct:korrekt };
-  };
-}
-routes.mix.push(genMeinSpiel());</code></pre>
-<hr/>
-<h2>👤 Credits & Lizenz</h2>
-<ul>
-  <li>© 2025 <strong>PezzaliAPP</strong> — Bildungsprototyp.</li>
-  <li>Lizenz: frei für Bildungszwecke (Quelle angeben).</li>
-</ul>
-`;
+    <h3>Medie</h3>
+    <ul>
+      <li><strong>1ª–3ª media:</strong> Equazioni di 1° grado · Teorema di Pitagora · Percentuali</li>
+    </ul>
 
-    // ————— PORTUGUÊS —————
-    const pt = `
-<h1>Caça aos Números — PWA v5</h1>
-<p>Jogo educativo para o <strong>ensino primário (2º ano)</strong>: adição com transporte, subtração com empréstimo, tabuadas (2/5/10) e geometria básica.
-Funciona como <strong>PWA</strong>: utilizável em <strong>PC, tablet, quadro interativo, iPhone</strong>, também <strong>offline</strong>.</p>
-<hr/>
-<h2>🎯 Objetivos</h2>
-<ul>
-  <li>Consolidar <strong>números até 100</strong> e cálculo mental.</li>
-  <li>Realizar <strong>adições</strong> e <strong>subtrações</strong> com transporte/empréstimo.</li>
-  <li>Introduzir <strong>multiplicação</strong> como <strong>adição repetida</strong> (2–5–10).</li>
-  <li>Reconhecer <strong>figuras geométricas</strong> simples (lados/faces).</li>
-  <li>Promover <strong>atenção</strong>, <strong>motivação</strong> e <strong>cooperação</strong> por meio do jogo.</li>
-</ul>
-<p><em>Referência curricular (IT):</em> Números, Espaço e formas, Resolução de problemas.</p>
-<hr/>
-<h2>👩‍🏫 Para quem</h2>
-<ul>
-  <li><strong>Professores</strong> (ideal no 2º ano; útil no 1º para consolidação e no 3º para revisão).</li>
-  <li><strong>Alunos</strong> de 7–8 anos.</li>
-  <li>Uso em sala com <strong>quadro interativo</strong> ou tablets; também uso <strong>individual</strong> em casa.</li>
-</ul>
-<hr/>
-<h2>🚀 Como usar (docente)</h2>
-<ol>
-  <li>Abrir a página da PWA.</li>
-  <li>No <strong>Menu</strong>, escolher o <strong>Percurso</strong> (Mix guiado / Adições / Subtrações / Tabuadas / Geometria).</li>
-  <li>Tocar <strong>Iniciar</strong>.</li>
-  <li>Os alunos tocam a resposta correta: ganham ⭐ e avançam.</li>
-  <li>O botão <strong>Menu</strong> volta ao início para trocar de jogo a qualquer momento.</li>
-  <li><strong>Modo QI</strong> (opcional): textos e botões maiores para projeção.</li>
-</ol>
-<hr/>
-<h2>🧩 Jogos incluídos (v4.1)</h2>
-<ul>
-  <li><strong>Adições com transporte</strong>: ex. <code>27 + 15 = ?</code></li>
-  <li><strong>Subtrações com empréstimo</strong>: ex. <code>52 - 19 = ?</code></li>
-  <li><strong>Tabuadas 2/5/10</strong>: ex. <code>5 * 7 = ?</code></li>
-  <li><strong>Geometria básica</strong>: triângulo, quadrado, cubo (lados/faces).</li>
-</ul>
-<hr/>
-<h2>📱 PWA e offline</h2>
-<ul>
-  <li>Instalável (Android/Chrome, Chrome/Edge no Desktop).</li>
-  <li>Funciona <strong>offline</strong> via <strong>Service Worker</strong>.</li>
-  <li><strong>Atualizar App</strong> limpa o cache e recarrega os ficheiros.</li>
-  <li><strong>iPhone/iPad</strong>: abrir primeiro no <strong>Safari</strong> (janela privada recomendada) e depois adicionar à <strong>Tela inicial</strong>.</li>
-</ul>
-<hr/>
-<h2>🛠️ Publicar no seu site</h2>
-<ol>
-  <li>Carregar todos os ficheiros para a pasta do hosting (ex.: <code>/CacciaAiNumeriPWA/</code>).</li>
-  <li>Manter a estrutura (<code>manifest.json</code>, <code>service-worker.js</code>, pasta <code>icons/</code>).</li>
-  <li>Abrir o URL público.</li>
-  <li>Usar <strong>Atualizar App</strong> ou janela <strong>privada</strong> para atualizar clientes em cache.</li>
-</ol>
-<hr/>
-<h2>🔧 Resolução de problemas (iPhone)</h2>
-<ul>
-  <li><strong>Botões não respondem</strong>: recarregar em janela <strong>privada</strong>; depois tocar <strong>Atualizar App</strong>.</li>
-  <li><strong>Versão antiga</strong>: o cache do Safari é agressivo → usar <strong>Atualizar App</strong>; se necessário, fechar todos os separadores.</li>
-  <li><strong>Sem áudio</strong>: o som é desbloqueado após o <strong>primeiro toque</strong> (regra de autoplay do iOS).</li>
-</ul>
-<hr/>
-<h2>🔒 Privacidade</h2>
-<ul>
-  <li>Sem rastreamento externo, sem backend.</li>
-  <li>Dados locais (futuro relatório do docente) no <strong>localStorage</strong>.</li>
-</ul>
-<hr/>
-<h2>🗺️ Roteiro</h2>
-<ul>
-  <li><strong>Temporizador</strong>, <strong>sons</strong>, <strong>relatório do docente</strong>, <strong>multilíngue</strong>.</li>
-</ul>
-<hr/>
-<h2>🧪 Estender (desenvolvedores)</h2>
-<p>Os jogos são geradores em <code>app.js</code> que retornam:</p>
-<pre><code>{ name: "Título", prompt: "Pergunta", choices: [..], correct: 0 }</code></pre>
-<p>Exemplo:</p>
-<pre><code>function genMeuJogo(){
-  return function(){
-    var pergunta = "...";
-    var opcoes = [/* ... */];
-    var correta = 0;
-    return { name:"Título", prompt:pergunta, choices:opcoes, correct:correta };
-  };
-}
-routes.mix.push(genMeuJogo());</code></pre>
-<hr/>
-<h2>👤 Créditos & Licença</h2>
-<ul>
-  <li>© 2025 <strong>PezzaliAPP</strong> — Protótipo educativo.</li>
-  <li>Licença: uso educativo gratuito (cite a fonte).</li>
-</ul>
-`;
+    <h3>Liceo scientifico</h3>
+    <ul>
+      <li><strong>1ª:</strong> f(x)=mx+q · Equazioni di 1° grado</li>
+      <li><strong>2ª:</strong> f(x)=mx+q · Equazioni quadratiche (radici)</li>
+      <li><strong>3ª:</strong> Equazioni quadratiche · Trigonometria (angoli notevoli)</li>
+      <li><strong>4ª:</strong> Trigonometria · f(x)=mx+q</li>
+      <li><strong>5ª:</strong> Trigonometria · Equazioni quadratiche · f(x)=mx+q</li>
+    </ul>
+    <hr/>
 
-    // ————— FRANÇAIS —————
-    const fr = `
-<h1>Chasse aux Nombres — PWA v5</h1>
-<p>Jeu éducatif pour <strong>école primaire (CE1)</strong> : additions avec retenue, soustractions avec emprunt, tables (2/5/10), géométrie de base.
-Fonctionne comme une <strong>PWA</strong> : utilisable sur <strong>PC, tablette, TBI, iPhone</strong>, aussi <strong>hors ligne</strong>.</p>
-<hr/>
-<h2>🎯 Objectifs pédagogiques</h2>
-<ul>
-  <li>Consolider les <strong>nombres jusqu’à 100</strong> et le calcul mental.</li>
-  <li>Réaliser <strong>additions</strong> et <strong>soustractions</strong> avec retenue/emprunt.</li>
-  <li>Introduire la <strong>multiplication</strong> comme <strong>addition répétée</strong> (2–5–10).</li>
-  <li>Reconnaître des <strong>formes géométriques</strong> simples et leurs propriétés (côtés/faces).</li>
-  <li>Favoriser <strong>attention</strong>, <strong>motivation</strong> et <strong>coopération</strong> par le jeu.</li>
-</ul>
-<p><em>Référence programme (IT) :</em> Nombres, Espace et formes, Résolution de problèmes.</p>
-<hr/>
-<h2>👩‍🏫 Public</h2>
-<ul>
-  <li><strong>Enseignants</strong> (idéal CE1 ; utile CP/CE2 pour consolider/réviser).</li>
-  <li><strong>Élèves</strong> de 7–8 ans.</li>
-  <li>Usage en classe avec <strong>TBI</strong>/tablettes ou usage <strong>individuel</strong> à la maison.</li>
-</ul>
-<hr/>
-<h2>🚀 Mode d’emploi (enseignant)</h2>
-<ol>
-  <li>Ouvrir la page de la PWA.</li>
-  <li>Dans le <strong>Menu</strong>, choisir un <strong>Parcours</strong> (Mix guidé / Additions / Soustractions / Tables / Géométrie).</li>
-  <li>Appuyer sur <strong>Démarrer</strong>.</li>
-  <li>Les élèves choisissent la bonne réponse : ⭐ puis on avance.</li>
-  <li>Le bouton <strong>Menu</strong> ramène à l’accueil pour changer de jeu à tout moment.</li>
-  <li><strong>Mode TBI</strong> (option) : textes et boutons agrandis.</li>
-</ol>
-<hr/>
-<h2>🧩 Jeux inclus (v4.1)</h2>
-<ul>
-  <li><strong>Additions avec retenue</strong> : ex. <code>27 + 15 = ?</code></li>
-  <li><strong>Soustractions avec emprunt</strong> : ex. <code>52 - 19 = ?</code></li>
-  <li><strong>Tables 2/5/10</strong> : ex. <code>5 * 7 = ?</code></li>
-  <li><strong>Géométrie de base</strong> : triangle, carré, cube (côtés/faces).</li>
-</ul>
-<hr/>
-<h2>📱 PWA & hors ligne</h2>
-<ul>
-  <li>Installable (Android/Chrome, Chrome/Edge sur ordinateur).</li>
-  <li>Fonctionne <strong>hors ligne</strong> via <strong>Service Worker</strong>.</li>
-  <li>Le bouton <strong>Mettre à jour l’app</strong> vide le cache et recharge les fichiers.</li>
-  <li><strong>iPhone/iPad</strong> : ouvrir d’abord dans <strong>Safari</strong> (fenêtre privée conseillée), puis ajouter à <strong>l’écran d’accueil</strong>.</li>
-</ul>
-<hr/>
-<h2>🛠️ Mise en ligne sur votre site</h2>
-<ol>
-  <li>Téléverser tous les fichiers dans le dossier d’hébergement (ex. <code>/CacciaAiNumeriPWA/</code>).</li>
-  <li>Conserver la structure (<code>manifest.json</code>, <code>service-worker.js</code>, dossier <code>icons/</code>).</li>
-  <li>Ouvrir l’URL publique.</li>
-  <li>Utiliser <strong>Mettre à jour l’app</strong> ou une <strong>fenêtre privée</strong> pour actualiser les clients en cache.</li>
-</ol>
-<hr/>
-<h2>🔧 Dépannage (iPhone)</h2>
-<ul>
-  <li><strong>Boutons inactifs</strong> : recharger en <strong>fenêtre privée</strong> ; puis appuyer sur <strong>Mettre à jour l’app</strong>.</li>
-  <li><strong>Ancienne version</strong> : cache Safari agressif → <strong>Mettre à jour l’app</strong> ; si besoin, fermer tous les onglets.</li>
-  <li><strong>Pas de son</strong> : les sons se débloquent après le <strong>premier appui</strong> (règle iOS).</li>
-</ul>
-<hr/>
-<h2>🔒 Vie privée</h2>
-<ul>
-  <li>Aucun suivi externe, aucun backend.</li>
-  <li>Données locales (futur rapport enseignant) stockées dans le <strong>localStorage</strong>.</li>
-</ul>
-<hr/>
-<h2>🗺️ Feuille de route</h2>
-<ul>
-  <li><strong>Minuteur</strong>, <strong>sons</strong>, <strong>rapport enseignant</strong>, <strong>multilingue</strong>.</li>
-</ul>
-<hr/>
-<h2>🧪 Étendre (développeurs)</h2>
-<p>Les jeux sont des générateurs dans <code>app.js</code> renvoyant :</p>
-<pre><code>{ name: "Titre", prompt: "Question", choices: [..], correct: 0 }</code></pre>
-<p>Exemple :</p>
-<pre><code>function genMonJeu(){
-  return function(){
-    var question = "...";
-    var choix = [/* ... */];
-    var correct = 0;
-    return { name:"Titre", prompt:question, choices:choix, correct:correct };
-  };
-}
-routes.mix.push(genMonJeu());</code></pre>
-<hr/>
-<h2>👤 Crédits & Licence</h2>
-<ul>
-  <li>© 2025 <strong>PezzaliAPP</strong> — Prototype éducatif.</li>
-  <li>Licence : usage éducatif libre (citer la source).</li>
-</ul>
-`;
+    <h2>🚀 Come si usa (docente)</h2>
+    <ol>
+      <li>Apri la PWA e seleziona <strong>Anno/Grado</strong> e <strong>Percorso</strong>.</li>
+      <li>Tocca <strong>Inizia l’avventura</strong>.</li>
+      <li>Modalità <strong>LIM</strong>: pulsante dedicato per ingrandire testi e pulsanti.</li>
+    </ol>
+    <hr/>
 
-    // ————— 中文（简体） —————
-    const zh = `
-<h1>数字寻宝 — PWA v5</h1>
-<p>面向<strong>小学二年级</strong>的教学游戏：进位加法、退位减法、2/5/10 乘法表、基础几何。
-作为<strong>渐进式 Web 应用（PWA）</strong>，可在<strong>电脑、平板、交互白板、iPhone</strong>上使用，并可<strong>离线</strong>运行。</p>
-<hr/>
-<h2>🎯 学习目标</h2>
-<ul>
-  <li>巩固<strong>100 以内</strong>的数与心算能力。</li>
-  <li>掌握<strong>进位加法</strong>与<strong>退位减法</strong>。</li>
-  <li>把<strong>乘法</strong>理解为<strong>重复加法</strong>（2–5–10 乘法表）。</li>
-  <li>识别简单<strong>几何图形</strong>及其性质（边/面）。</li>
-  <li>通过游戏促进<strong>注意力</strong>、<strong>动机</strong>与<strong>合作</strong>。</li>
-</ul>
-<p><em>课程参考（意大利）</em>：数字、空间与图形、解决问题。</p>
-<hr/>
-<h2>👩‍🏫 适用对象</h2>
-<ul>
-  <li><strong>教师</strong>（二年级最佳，也适合一年级巩固、三年级复习）。</li>
-  <li><strong>学生</strong>：7–8 岁。</li>
-  <li>课堂配合<strong>白板</strong>或平板使用；也适合家庭<strong>个人</strong>练习。</li>
-</ul>
-<hr/>
-<h2>🚀 使用方法（教师）</h2>
-<ol>
-  <li>打开 PWA 页面。</li>
-  <li>在<strong>菜单</strong>中选择<strong>路线</strong>（混合/加法/减法/乘法表/几何）。</li>
-  <li>点击<strong>开始</strong>。</li>
-  <li>学生选择答案：正确则获得 ⭐ 并前进。</li>
-  <li>可随时点击<strong>菜单</strong>返回首页更换游戏。</li>
-  <li><strong>白板模式</strong>（可选）：更大的文字与按钮，便于投屏。</li>
-</ol>
-<hr/>
-<h2>🧩 包含的游戏（v4.1）</h2>
-<ul>
-  <li><strong>进位加法</strong>：如 <code>27 + 15 = ?</code></li>
-  <li><strong>退位减法</strong>：如 <code>52 - 19 = ?</code></li>
-  <li><strong>2/5/10 乘法表</strong>：如 <code>5 * 7 = ?</code></li>
-  <li><strong>基础几何</strong>：三角形、正方形、立方体（边/面）。</li>
-</ul>
-<hr/>
-<h2>📱 PWA 与离线</h2>
-<ul>
-  <li>可安装（Android/Chrome，桌面 Chrome/Edge）。</li>
-  <li>通过 <strong>Service Worker</strong> 支持<strong>离线</strong>。</li>
-  <li><strong>更新应用</strong>按钮可清理缓存并重新加载文件。</li>
-  <li><strong>iPhone/iPad</strong>：首次建议在 <strong>Safari</strong>（隐私窗口）打开，然后添加到<strong>主屏幕</strong>。</li>
-</ul>
-<hr/>
-<h2>🛠️ 部署到网站</h2>
-<ol>
-  <li>将所有文件上传到主机目录（如 <code>/CacciaAiNumeriPWA/</code>）。</li>
-  <li>保持目录结构（<code>manifest.json</code>、<code>service-worker.js</code>、<code>icons/</code>）。</li>
-  <li>打开公共链接。</li>
-  <li>使用<strong>更新应用</strong>或<strong>隐私窗口</strong>刷新已缓存的客户端。</li>
-</ol>
-<hr/>
-<h2>🔧 故障排除（iPhone）</h2>
-<ul>
-  <li><strong>按钮无响应</strong>：在<strong>隐私窗口</strong>重新加载，然后点击<strong>更新应用</strong>。</li>
-  <li><strong>仍显示旧版本</strong>：Safari 缓存较强 → 使用<strong>更新应用</strong>；必要时关闭所有标签页并重开。</li>
-  <li><strong>无声音</strong>：根据 iOS 规则，声音需在<strong>第一次点击</strong>后才能播放。</li>
-</ul>
-<hr/>
-<h2>🔒 隐私</h2>
-<ul>
-  <li>无外部跟踪，无后端。</li>
-  <li>本地数据（如未来教师报告）保存在 <strong>localStorage</strong>。</li>
-</ul>
-<hr/>
-<h2>🗺️ 路线图</h2>
-<ul>
-  <li><strong>计时器</strong>、<strong>提示音</strong>、<strong>教师报告</strong>、<strong>多语言</strong>。</li>
-</ul>
-<hr/>
-<h2>🧪 扩展（开发者）</h2>
-<p>游戏在 <code>app.js</code> 中以生成器形式返回：</p>
-<pre><code>{ name: "标题", prompt: "问题", choices: [..], correct: 0 }</code></pre>
-<p>示例：</p>
-<pre><code>function genMyGame(){
-  return function(){
-    var q = "...";
-    var opts = [/* ... */];
-    var correct = 0;
-    return { name:"标题", prompt:q, choices:opts, correct:correct };
-  };
-}
-routes.mix.push(genMyGame());</code></pre>
-<hr/>
-<h2>👤 版权与许可</h2>
-<ul>
-  <li>© 2025 <strong>PezzaliAPP</strong> — 教育原型。</li>
-  <li>许可：仅用于教育目的（请注明来源）。</li>
-</ul>
-`;
+    <h2>📱 PWA e modalità offline</h2>
+    <ul>
+      <li>Installabile (Android/Chrome, Desktop Chrome/Edge).</li>
+      <li>Funziona <strong>offline</strong> tramite <strong>Service Worker</strong>.</li>
+      <li>Bottone <strong>Aggiorna App</strong>: svuota cache e ricarica i file (utile su iOS).</li>
+      <li><strong>iPhone/iPad</strong>: apri in Safari e aggiungi a <strong>Schermata Home</strong>.</li>
+    </ul>
+    <hr/>
 
-    const dict = { it, en, de, pt, fr, zh };
-    const sel = document.getElementById('langSel');
-    const content = document.getElementById('content');
-    function render(lang){ content.innerHTML = dict[lang] || dict.it; content.scrollTop = 0; }
-    render('it');
-    sel.addEventListener('change', function(){ render(this.value); });
-  </script>
+    <h2>🔧 Estendere (per sviluppatori)</h2>
+    <p>I percorsi sono definiti in <code>app.js</code> nella mappa <code>routeMap</code>. Un generatore restituisce:</p>
+    <pre><code>return { name: "Titolo", prompt: "Domanda", choices: [..], correct: 0 };</code></pre>
+    <p>Aggiungi un nuovo generatore e inseriscilo nel percorso di un anno: <code>routeMap["primaria4"].paths["Nuovo Percorso"] = [genNuovo()];</code></p>
+    <hr/>
+
+    <h2>🔒 Privacy</h2>
+    <ul>
+      <li>Nessun tracciamento esterno, nessun backend.</li>
+      <li>Eventuali dati locali (in futuro: report docente) vengono salvati in <strong>localStorage</strong>.</li>
+    </ul>
+    <hr/>
+
+    <h2>👤 Crediti e Licenza</h2>
+    <ul>
+      <li>© 2025 <strong>PezzaliAPP</strong> — PWA educativa.</li>
+      <li>Licenza: uso libero a fini didattici (citare la fonte).</li>
+    </ul>
+  </div>
 </body>
 </html>
