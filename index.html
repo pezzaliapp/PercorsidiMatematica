@@ -104,6 +104,42 @@
   <footer>
     <small>© 2025 PezzaliAPP — PWA educativa.</small>
   </footer>
+  
+<script id="inline-populator">
+// Inline fallback populator (v6.3a)
+(function(){
+  var UI_ROUTE = {
+    primaria1:['Addizioni con cambio (semplici)','Sottrazioni con prestito (semplici)','Tabelline 2/5/10','Geometria: perimetro','Informatica: mouse e tastiera'],
+    primaria2:['Addizioni con cambio','Sottrazioni con prestito','Tabelline 2/5/10','Geometria: perimetro','Informatica: file e cartelle'],
+    primaria3:['Tabelline complete','Divisioni semplici','Informatica: coding a blocchi','Informatica: Internet e ricerca'],
+    primaria4:['Frazioni equivalenti','Decimali (somma)','Area (rettangolo/triangolo)','Proporzioni semplici','Informatica: Internet e ricerca'],
+    primaria5:['Percentuali','Proporzioni','Volume parallelepipedo','Decimali (somma)','Informatica: sicurezza e file'],
+    media1:['Equazioni di 1° grado','Percentuali','Pitagora','Informatica: ricerca avanzata'],
+    media2:['Equazioni di 1° grado','Percentuali','Pitagora','Informatica: sicurezza (2FA)'],
+    media3:['Equazioni di 1° grado','Percentuali','Pitagora','Informatica: ricerca avanzata'],
+    liceo1:['f(x)=mx+q (valori)','Equazioni di 1° grado','Informatica: sistemi operativi e software'],
+    liceo2:['f(x)=mx+q (valori)','Quadratica (somma radici)','Informatica: reti e protocolli'],
+    liceo3:['Quadratica (somma radici)','Trigonometria (angoli notevoli)','Informatica: basi di dati (concetti)'],
+    liceo4:['Trigonometria (angoli notevoli)','f(x)=mx+q (valori)','Informatica: algoritmi e complessità (base)'],
+    liceo5:['Trigonometria (angoli notevoli)','Quadratica (somma radici)','f(x)=mx+q (valori)','Informatica: sicurezza e privacy (avanzato)']
+  };
+  function $(id){return document.getElementById(id);}
+  function fillPercorsi(){
+    var g=$('livello'), p=$('percorso'); if(!g||!p) return;
+    var list = UI_ROUTE[g.value] || [];
+    p.innerHTML='';
+    list.forEach(function(name){ var o=document.createElement('option'); o.value=name; o.textContent=name; p.appendChild(o); });
+    if (!p.options.length){ var o=document.createElement('option'); o.textContent='(nessun percorso)'; p.appendChild(o); }
+  }
+  document.addEventListener('DOMContentLoaded', function(){
+    fillPercorsi();
+    $('livello').addEventListener('change', fillPercorsi);
+    $('refreshPathsBtn').addEventListener('click', fillPercorsi);
+  });
+  // expose for debug
+  try{ window._uiRoute = UI_ROUTE; window._fillPercorsi = fillPercorsi; }catch(e){}
+})();
+</script>
 
   <script src="app.js"></script>
 </body>
