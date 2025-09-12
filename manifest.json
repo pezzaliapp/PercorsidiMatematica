@@ -1,6 +1,6 @@
 {
-  "name": "Caccia ai Numeri — PWA v5",
-  "short_name": "CacciaNumeri",
+  "name": "Percorsi di Matematica — PWA v5",
+  "short_name": "PercorsiMath",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#0b5fff",
