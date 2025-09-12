@@ -15,29 +15,6 @@
   });
 
   // SW
-  // --- Aggiornamento automatico ---
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('service-worker.js').then(reg => {
-      reg.addEventListener('updatefound', () => {
-        const newWorker = reg.installing;
-        newWorker.addEventListener('statechange', () => {
-          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-            const confirmed = confirm("È disponibile una nuova versione dell'app. Vuoi aggiornare ora?");
-            if (confirmed) {
-              newWorker.postMessage({ type: 'SKIP_WAITING' });
-            }
-          }
-        });
-      });
-    });
-    let refreshing;
-    navigator.serviceWorker.addEventListener('controllerchange', () => {
-      if (refreshing) return;
-      try{ populatePaths(); }catch(e){}; window.location.reload();
-      refreshing = true;
-    });
-  }
-
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function(){ navigator.serviceWorker.register('service-worker.js'); });
   }
@@ -113,110 +90,6 @@
   function genQuadraticRootsSimple(){ return function(){ var r1=rand(-5,5), r2=rand(-5,5); var b=-(r1+r2), c=r1*r2; var sum=r1+r2; var o=shuffle([sum,sum+1,sum-1,sum+2]); return {name:'Quadratica (somma radici)', prompt:'x² '+(b>=0?'+ ':'')+b+'x '+(c>=0?'+ ':'')+c+' = 0 ⇒ somma radici?', choices:o, correct:o.indexOf(sum)};};}
   function genTrigNotable(){ return function(){ var angles=[0,30,45,60,90], a=choice(angles), which=choice(['sin','cos']); var exact={'sin0':'0','sin30':'1/2','sin45':'√2/2','sin60':'√3/2','sin90':'1','cos0':'1','cos30':'√3/2','cos45':'√2/2','cos60':'1/2','cos90':'0'}[which+String(a)]; var o=shuffle([exact,'0','1/2','√2/2','√3/2']); return {name:'Trigonometria', prompt: which+'('+a+'°) = ?', choices:o, correct:o.indexOf(exact)};};}
 
-  
-  // ---------- INFORMATICA (Primaria) ----------
-  function genInfoMouseKeyboard(){
-    return function(){
-      var qs = [
-        {p:'Quale dispositivo muove il puntatore sullo schermo?', a:'Mouse', o:['Mouse','Tastiera','Monitor','Stampante']},
-        {p:'Quale tasto inserisce uno spazio tra le parole?', a:'Barra spaziatrice', o:['Barra spaziatrice','Invio','Shift','Esc']},
-        {p:'Quale tasto va a capo in un testo?', a:'Invio', o:['Invio','Barra spaziatrice','Tab','Ctrl']}
-      ];
-      var q = qs[Math.floor(Math.random()*qs.length)];
-      var opts = q.o.slice().sort(()=>Math.random()-0.5);
-      return { name:'Informatica: mouse e tastiera', prompt:q.p, choices:opts, correct:opts.indexOf(q.a) };
-    };
-  }
-  function genInfoHWvsSW(){
-    return function(){
-      var items = [
-        {p:'Che cos\'è "monitor"?', a:'Hardware', o:['Hardware','Software','Rete','Dati']},
-        {p:'Che cos\'è "browser"?', a:'Software', o:['Software','Hardware','Password','Cartella']},
-        {p:'Che cos\'è "tastiera"?', a:'Hardware', o:['Hardware','Software','Rete','File']}
-      ];
-      var q = items[Math.floor(Math.random()*items.length)];
-      var opts = q.o.slice().sort(()=>Math.random()-0.5);
-      return { name:'Informatica: hardware o software', prompt:q.p, choices:opts, correct:opts.indexOf(q.a) };
-    };
-  }
-  function genInfoSequenceUnplugged(){
-    return function(){
-      var qs = [
-        {p:'Una sequenza di passi per risolvere un problema si chiama…', a:'Algoritmo', o:['Algoritmo','Password','Rete','Cartella']},
-        {p:'Se un robot non esegue correttamente un passo, dobbiamo…', a:'Fare debug (correggere)', o:['Fare debug (correggere)','Spegnere internet','Cambiare monitor','Stampare']}
-      ];
-      var q = qs[Math.floor(Math.random()*qs.length)];
-      var opts = q.o.slice().sort(()=>Math.random()-0.5);
-      return { name:'Informatica: unplugged', prompt:q.p, choices:opts, correct:opts.indexOf(q.a) };
-    };
-  }
-  function genInfoAppsBase(){
-    return function(){
-      var qs = [
-        {p:'Quale programma è adatto per fare presentazioni?', a:'Presentazioni', o:['Presentazioni','Videoscrittura','Foglio di calcolo','Editor di codice']},
-        {p:'Per scrivere un testo uso…', a:'Videoscrittura', o:['Videoscrittura','Presentazioni','Browser','Editor foto']}
-      ];
-      var q = qs[Math.floor(Math.random()*qs.length)];
-      var opts = q.o.slice().sort(()=>Math.random()-0.5);
-      return { name:'Informatica: app educative', prompt:q.p, choices:opts, correct:opts.indexOf(q.a) };
-    };
-  }
-  function genInfoFiles(){
-    return function(){
-      var qs = [
-        {p:'Quale di queste è un\'immagine?', a:'.jpg', o:['.jpg','.docx','.pptx','.xlsx']},
-        {p:'Una cartella può contenere…', a:'File e altre cartelle', o:['File e altre cartelle','Solo immagini','Solo testi','Solo programmi']}
-      ];
-      var q = qs[Math.floor(Math.random()*qs.length)];
-      var opts = q.o.slice().sort(()=>Math.random()-0.5);
-      return { name:'Informatica: file e cartelle', prompt:q.p, choices:opts, correct:opts.indexOf(q.a) };
-    };
-  }
-  function genInfoNetiquette(){
-    return function(){
-      var qs = [
-        {p:'Prima di usare una foto trovata online, è bene…', a:'Verificare diritti e attribuzione', o:['Verificare diritti e attribuzione','Condividerla subito','Modificarla e basta','Ignorare l\'autore']},
-        {p:'È corretto condividere dati personali in pubblico?', a:'No', o:['No','Sì','Solo a volte','Dipende dalla foto']}
-      ];
-      var q = qs[Math.floor(Math.random()*qs.length)];
-      var opts = q.o.slice().sort(()=>Math.random()-0.5);
-      return { name:'Informatica: cittadinanza digitale', prompt:q.p, choices:opts, correct:opts.indexOf(q.a) };
-    };
-  }
-  function genInfoPassword(){
-    return function(){
-      var qs = [
-        {p:'Quale password è più sicura?', a:'G7!m_4zQ', o:['G7!m_4zQ','123456','password','qwerty']},
-        {p:'Una buona password dovrebbe essere…', a:'Lunga e con simboli/numeri', o:['Lunga e con simboli/numeri','Breve e semplice','Uguale per tutti i siti','Il tuo nome']}
-      ];
-      var q = qs[Math.floor(Math.random()*qs.length)];
-      var opts = q.o.slice().sort(()=>Math.random()-0.5);
-      return { name:'Informatica: sicurezza (password)', prompt:q.p, choices:opts, correct:opts.indexOf(q.a) };
-    };
-  }
-  function genInfoBlocks(){
-    return function(){
-      var qs = [
-        {p:'Nel coding a blocchi, "ripeti 10 volte" è un…', a:'Ciclo (loop)', o:['Ciclo (loop)','Evento','Variabile','Immagine']},
-        {p:'Un blocco "se … allora" serve per…', a:'Prendere decisioni (condizioni)', o:['Prendere decisioni (condizioni)','Disegnare','Salvare file','Aumentare il volume']}
-      ];
-      var q = qs[Math.floor(Math.random()*qs.length)];
-      var opts = q.o.slice().sort(()=>Math.random()-0.5);
-      return { name:'Informatica: coding a blocchi', prompt:q.p, choices:opts, correct:opts.indexOf(q.a) };
-    };
-  }
-  function genInfoInternetBase(){
-    return function(){
-      var qs = [
-        {p:'Un "browser" serve per…', a:'Navigare su internet', o:['Navigare su internet','Scrivere presentazioni','Stampare','Disegnare']},
-        {p:'Una ricerca efficace online richiede…', a:'Parole chiave', o:['Parole chiave','Emoji','Password','Screenshot']}
-      ];
-      var q = qs[Math.floor(Math.random()*qs.length)];
-      var opts = q.o.slice().sort(()=>Math.random()-0.5);
-      return { name:'Informatica: Internet e ricerca', prompt:q.p, choices:opts, correct:opts.indexOf(q.a) };
-    };
-  }
-
   // ---------- ROUTE MAP (anno -> categorie -> [generators]) ----------
   var routeMap = {
     primaria1: {
@@ -226,11 +99,7 @@
         'Sottrazioni entro 20': [genSub20()],
         'Confronto numeri': [genCompare20()],
         'Figure semplici': [genShapes1()]
-      
-        'Informatica: mouse e tastiera': [genInfoMouseKeyboard()],
-        'Informatica: hardware o software': [genInfoHWvsSW()],
-        'Informatica: unplugged (sequenze)': [genInfoSequenceUnplugged()],
-        'Informatica: app educative': [genInfoAppsBase()],}
+      }
     },
     primaria2: {
       name: '2ª primaria',
@@ -239,11 +108,7 @@
         'Sottrazioni con prestito': [genSubBorrow()],
         'Tabelline 2/5/10': [genTablesBase()],
         'Geometria: perimetro': [genPerimeterRect()]
-      
-        'Informatica: file e cartelle': [genInfoFiles()],
-        'Informatica: app educative': [genInfoAppsBase()],
-        'Informatica: cittadinanza digitale': [genInfoNetiquette()],
-        'Informatica: mouse e tastiera': [genInfoMouseKeyboard()],}
+      }
     },
     primaria3: {
       name: '3ª primaria',
@@ -252,11 +117,7 @@
         'Divisioni semplici': [genDivisionSimple()],
         'Perimetro figure': [genPerimeterMix()],
         'Problemi moltiplicativi': [genWordMult()]
-      
-        'Informatica: coding a blocchi': [genInfoBlocks()],
-        'Informatica: unplugged (sequenze)': [genInfoSequenceUnplugged()],
-        'Informatica: sicurezza (password)': [genInfoPassword()],
-        'Informatica: file e cartelle': [genInfoFiles()],}
+      }
     },
     primaria4: {
       name: '4ª primaria',
@@ -265,11 +126,7 @@
         'Multipli e divisori': [genMultipliDivisori()],
         'Decimali (somma)': [genDecimalsSum10()],
         'Area rettangolo/triangolo': [genAreaRectTri()]
-      
-        'Informatica: Internet e ricerca': [genInfoInternetBase()],
-        'Informatica: cittadinanza digitale': [genInfoNetiquette()],
-        'Informatica: hardware o software': [genInfoHWvsSW()],
-        'Informatica: coding a blocchi': [genInfoBlocks()],}
+      }
     },
     primaria5: {
       name: '5ª primaria',
@@ -278,11 +135,7 @@
         'Proporzioni semplici': [genProportionFill()],
         'Volume parallelepipedo': [genVolumeCuboid()],
         'Tempo e monete': [genMoneyTime()]
-      
-        'Informatica: Internet e ricerca': [genInfoInternetBase()],
-        'Informatica: sicurezza (password)': [genInfoPassword()],
-        'Informatica: cittadinanza digitale': [genInfoNetiquette()],
-        'Informatica: file e cartelle': [genInfoFiles()],}
+      }
     },
     // Medie (bozza con 3 categorie standard)
     media1: { name:'1ª media', paths: {'Equazioni 1°': [genEq1()], 'Pitagora': [genPitagora()], 'Percentuali': [genPercent()]} },
@@ -300,29 +153,23 @@
   var level=0, stars=0, done=0, total=8;
   var currentQuestion=null, currentRoute=[genAddCarry()], currentGradeKey='primaria2', currentPathName='Addizioni con cambio';
 
-  
-  // Populate percorso select based on grade (robust)
+  // Populate percorso select based on grade
   function populatePaths(){
-    var gradeSel = $('livello');
+    var selGrade = $('livello').value;
+    var info = routeMap[selGrade];
     var perSel = $('percorso');
-    if (!perSel) return;
-    var selGrade = (gradeSel && gradeSel.value) ? gradeSel.value : 'primaria2';
-    var info = (typeof routeMap !== 'undefined' && routeMap[selGrade]) ? routeMap[selGrade] : routeMap['primaria2'];
     perSel.innerHTML = '';
     var first = null;
-    if (info && info.paths){
-      Object.keys(info.paths).forEach(function(k){
-        var opt = document.createElement('option');
-        opt.value = k;
-        opt.textContent = k;
-        perSel.appendChild(opt);
-        if (!first) first = k;
-      });
-      if (first) perSel.value = first;
+    for (var k in info.paths){
+      var opt = document.createElement('option');
+      opt.value = k;
+      opt.textContent = k;
+      perSel.appendChild(opt);
+      if(!first) first = k;
     }
-    if ($('gradeName')) $('gradeName').textContent = (info && info.name) ? info.name : selGrade;
+    $('gradeName').textContent = info.name || selGrade;
+    perSel.value = first;
   }
-
 
   function startGame(){
     currentGradeKey = $('livello').value;
@@ -391,7 +238,6 @@
 
   // Wire UI
   document.addEventListener('DOMContentLoaded', function(){
-    try{ populatePaths(); }catch(e){}
     populatePaths();
     $('livello').addEventListener('change', populatePaths);
     $('menuBtn').addEventListener('click', function(){ hide('game'); show('intro'); window.scrollTo(0,0); });
