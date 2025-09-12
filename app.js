@@ -291,3 +291,6 @@
 
 // debug export
 try{ window.routeMap = routeMap; }catch(e){}
+
+// expose for bootstrap
+try{ window.populatePaths = populatePaths; window.fillGradeSelector = fillGradeSelector; }catch(e){}
