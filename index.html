@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Percorsi di Matematica — PWA v6.2</title>
+  <title>Percorsi di Matematica — PWA v6.3</title>
   <link rel="manifest" href="manifest.json">
   <link rel="icon" sizes="192x192" href="icons/icon-192.png">
   <meta name="theme-color" content="#0b5fff">
@@ -18,7 +18,7 @@
   </div>
 
   <header>
-    <h1>📘 Percorsi di Matematica — PWA v6.2</h1>
+    <h1>📘 Percorsi di Matematica — PWA v6.3</h1>
     <div class="header-actions">
       <a class="secondary" href="readme.html" target="_blank">Guida</a>
       <button id="limBtn" class="secondary" type="button">Modalità LIM</button>
@@ -51,12 +51,7 @@
         </label>
 
         <label>Percorso
-          <select id="percorso">
-           <option>Tabelline 2/5/10</option>
-           <option>Addizioni con cambio</option>
-           <option>Sottrazioni con prestito</option>
-           <option>Geometria: perimetro</option>
-         </select>
+          <select id="percorso"></select>
         </label>
       </div>
 
@@ -111,20 +106,5 @@
   </footer>
 
   <script src="app.js"></script>
-<script id="bootstrapCheck">
-(function(){
-  function byId(id){return document.getElementById(id);}
-  function ensure(){
-    var g=byId('livello'), p=byId('percorso');
-    if(!g||!p) return;
-    if(p.options.length<=1 && typeof populatePaths==='function'){ try{ populatePaths(); }catch(e){} }
-  }
-  if(document.readyState==='complete' || document.readyState==='interactive'){
-    setTimeout(ensure,50);
-  }else{
-    document.addEventListener('DOMContentLoaded', ensure);
-  }
-})();
-</script>
 </body>
 </html>
