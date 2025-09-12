@@ -33,11 +33,25 @@
 
       <div class="grid2">
         <label>Anno/Grado
-          <select id="livello"></select>
+          <select id="livello">
+            <option value="primaria1">1ª primaria</option>
+            <option value="primaria2" selected>2ª primaria</option>
+            <option value="primaria3">3ª primaria</option>
+            <option value="primaria4">4ª primaria</option>
+            <option value="primaria5">5ª primaria</option>
+            <option value="media1">1ª media</option>
+            <option value="media2">2ª media</option>
+            <option value="media3">3ª media</option>
+            <option value="liceo1">1ª liceo</option>
+            <option value="liceo2">2ª liceo</option>
+            <option value="liceo3">3ª liceo</option>
+            <option value="liceo4">4ª liceo</option>
+            <option value="liceo5">5ª liceo</option>
+          </select>
         </label>
 
         <label>Percorso
-          <select id="percorso"></select>
+          <select id="percorso"><option>Seleziona un anno…</option></select>
         </label>
       </div>
 
@@ -92,5 +106,20 @@
   </footer>
 
   <script src="app.js"></script>
+<script id="bootstrapCheck">
+(function(){
+  function byId(id){return document.getElementById(id);}
+  function ensure(){
+    var g=byId('livello'), p=byId('percorso');
+    if(!g||!p) return;
+    if(p.options.length<=1 && typeof populatePaths==='function'){ try{ populatePaths(); }catch(e){} }
+  }
+  if(document.readyState==='complete' || document.readyState==='interactive'){
+    setTimeout(ensure,50);
+  }else{
+    document.addEventListener('DOMContentLoaded', ensure);
+  }
+})();
+</script>
 </body>
 </html>

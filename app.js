@@ -288,3 +288,6 @@
   });
 
 })();
+
+// debug export
+try{ window.routeMap = routeMap; }catch(e){}
