@@ -40,6 +40,44 @@
   function genICTSearchOps(){ return function(){ var qs=[{p:'Per cercare una frase esatta si usano…',a:'Le virgolette \" \"',o:['Le virgolette \" \"','Il cancelletto #','Le parentesi ()','L’asterisco *']},{p:'Quale operatore esclude un termine?',a:'-',o:['-','+','?','~']}]; var q=qs[rand(0,qs.length-1)]; var o=q.o.slice(); shuffle(o); return {name:'Informatica: ricerca avanzata',prompt:q.p,choices:o,correct:o.indexOf(q.a)};};}
   function genICT2FA(){ return function(){ var qs=[{p:'La 2FA serve a…',a:'Aumentare la sicurezza',o:['Aumentare la sicurezza','Navigare più veloce','Bloccare pubblicità','Salvare password']}]; var q=qs[0]; var o=q.o.slice(); shuffle(o); return {name:'Informatica: sicurezza (2FA)',prompt:q.p,choices:o,correct:o.indexOf(q.a)};};}
 
+  
+  // --- Informatica (Liceo) generators ---
+  function genCS_OSvsSW(){ return function(){
+    var qs=[
+      {p:'Il kernel appartiene a…', a:'Sistema operativo', o:['Sistema operativo','Applicazione','Firmware','Driver video']},
+      {p:'Un driver è…', a:'Software che controlla l’hardware', o:['Software che controlla l’hardware','Una memoria di massa','Un tipo di processore','Una rete privata']}
+    ]; var q=qs[Math.floor(Math.random()*qs.length)]; var o=q.o.slice(); shuffle(o);
+    return {name:'Informatica: sistemi operativi e software', prompt:q.p, choices:o, correct:o.indexOf(q.a)};
+  };}
+  function genCS_NetworksLiceo(){ return function(){
+    var qs=[
+      {p:'HTTPS usa tipicamente la porta…', a:'443', o:['443','80','21','25']},
+      {p:'Il DNS serve a…', a:'Risoluzione dei nomi in indirizzi IP', o:['Risoluzione dei nomi in indirizzi IP','Criptare i file','Comprimere immagini','Bilanciare il carico']}
+    ]; var q=qs[Math.floor(Math.random()*qs.length)]; var o=q.o.slice(); shuffle(o);
+    return {name:'Informatica: reti e protocolli', prompt:q.p, choices:o, correct:o.indexOf(q.a)};
+  };}
+  function genCS_DBConcepts(){ return function(){
+    var qs=[
+      {p:'In un database relazionale, una riga si chiama…', a:'Tupla/record', o:['Tupla/record','Chiave esterna','Indice','Vista']},
+      {p:'La chiave primaria serve a…', a:'Identificare univocamente i record', o:['Identificare univocamente i record','Criptare i dati','Descrivere il dominio','Unire due tabelle']}
+    ]; var q=qs[Math.floor(Math.random()*qs.length)]; var o=q.o.slice(); shuffle(o);
+    return {name:'Informatica: basi di dati (concetti)', prompt:q.p, choices:o, correct:o.indexOf(q.a)};
+  };}
+  function genCS_AlgoComplex(){ return function(){
+    var qs=[
+      {p:'Un algoritmo in O(n) ha complessità…', a:'Lineare', o:['Lineare','Costante','Quadratica','Esponenziale']},
+      {p:'La “ricorsione” è…', a:'Una funzione che richiama se stessa', o:['Una funzione che richiama se stessa','Un tipo di variabile','Una tabella di database','Una rete privata']}
+    ]; var q=qs[Math.floor(Math.random()*qs.length)]; var o=q.o.slice(); shuffle(o);
+    return {name:'Informatica: algoritmi e complessità (base)', prompt:q.p, choices:o, correct:o.indexOf(q.a)};
+  };}
+  function genCS_SecurityAdv(){ return function(){
+    var qs=[
+      {p:'Il phishing è…', a:'Tentativo di furto credenziali con messaggi ingannevoli', o:['Tentativo di furto credenziali con messaggi ingannevoli','Un backup online','Una firma digitale','Un firewall hardware']},
+      {p:'L’autenticazione forte può includere…', a:'Biometria o token hardware', o:['Biometria o token hardware','Solo password breve','Cookie pubblicitari','Screenshot di conferma']}
+    ]; var q=qs[Math.floor(Math.random()*qs.length)]; var o=q.o.slice(); shuffle(o);
+    return {name:'Informatica: sicurezza e privacy (avanzato)', prompt:q.p, choices:o, correct:o.indexOf(q.a)};
+  };}
+
   // Route map completa
   var routeMap = {
     primaria1: { name:'1ª primaria', paths:{
@@ -97,14 +135,20 @@
     liceo1: { name:'1ª liceo', paths:{
       'f(x)=mx+q (valori)': [genLinearFuncValue()],
       'Equazioni di 1° grado': [genEq1()]
-    }},
-    liceo2: { name:'2ª liceo', paths:{
+    
+      'Informatica: sistemi operativi e s
       'f(x)=mx+q (valori)': [genLinearFuncValue()],
       'Quadratica (somma radici)': [genQuadraticRootsSimple()]
-    }},
-    liceo3: { name:'3ª liceo', paths:{
+    
+      'Informatica: reti e protocolli': [
       'Quadratica (somma radici)': [genQuadraticRootsSimple()],
       'Trigonometria (angoli notevoli)': [genTrigNotable()]
+    
+      'Informatica: basi di dati (concett
+      'Trigonometria (angoli notevoli)': [genTrigNotable()],
+      'f(x)=mx+q (valori)': [genLinearFuncValue()]
+    
+      'Informatica: algoritmi e complessità (base)': [genCS_AlgoComplex()],(angoli notevoli)': [genTrigNotable()]
     }},
     liceo4: { name:'4ª liceo', paths:{
       'Trigonometria (angoli notevoli)': [genTrigNotable()],
