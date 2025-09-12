@@ -40,6 +40,59 @@
   function genInfoBlocks(){ return function(){ var qs=[{p:'"Ripeti 10 volte" è un…',a:'Ciclo (loop)',o:['Ciclo (loop)','Evento','Variabile','Immagine']},{p:'"Se … allora" serve per…',a:'Prendere decisioni',o:['Prendere decisioni','Disegnare','Salvare file','Aumentare il volume']}]; var q=qs[rand(0,qs.length-1)]; var o=q.o.slice(); shuffle(o); return {name:'Informatica: coding a blocchi',prompt:q.p,choices:o,correct:o.indexOf(q.a)};};}
   function genInfoNet(){ return function(){ var qs=[{p:'Un browser serve per…',a:'Navigare su internet',o:['Navigare su internet','Stampare','Disegnare','Presentazioni']},{p:'Una ricerca efficace richiede…',a:'Parole chiave',o:['Parole chiave','Emoji','Password','Screenshot']}]; var q=qs[rand(0,qs.length-1)]; var o=q.o.slice(); shuffle(o); return {name:'Informatica: Internet e ricerca',prompt:q.p,choices:o,correct:o.indexOf(q.a)};};}
 
+  
+  // --- Informatica (Medie) generators ---
+  function genICTSearchOps(){ return function(){
+    var qs=[
+      {p:'Per cercare una frase esatta su Internet si usano…', a:'Le virgolette " "', o:['Le virgolette " "','Il cancelletto #','Le parentesi ()','L’asterisco *']},
+      {p:'Quale operatore restringe la ricerca a entrambe le parole?', a:'AND', o:['AND','OR','NEAR','NOT']},
+      {p:'Con quale operatore escludi un termine?', a:'-', o:['-','+','?','~']}
+    ]; var q=qs[Math.floor(Math.random()*qs.length)]; var o=q.o.slice().sort(()=>Math.random()-0.5);
+    return {name:'Informatica: ricerca avanzata', prompt:q.p, choices:o, correct:o.indexOf(q.a)}; };}
+  function genICTSpreadsheet(){ return function(){
+    var qs=[
+      {p:'In un foglio di calcolo, A1 indica…', a:'Colonna A, riga 1', o:['Colonna A, riga 1','Area 1','Riga A, colonna 1','Foglio 1']},
+      {p:'La funzione per sommare un intervallo è…', a:'=SOMMA()', o:['=SOMMA()','=MEDIA()','=SE()','=SOMMA.SE()']},
+      {p:'Per la media di B1:B5 uso…', a:'=MEDIA(B1:B5)', o:['=MEDIA(B1:B5)','=SOMMA(B1:B5)','=MAX(B1:B5)','=VAL(B1:B5)']}
+    ]; var q=qs[Math.floor(Math.random()*qs.length)]; var o=q.o.slice().sort(()=>Math.random()-0.5);
+    return {name:'Informatica: fogli di calcolo', prompt:q.p, choices:o, correct:o.indexOf(q.a)}; };}
+  function genICT2FA(){ return function(){
+    var qs=[
+      {p:'La “doppia autenticazione” (2FA) serve a…', a:'Aumentare la sicurezza dell’accesso', o:['Aumentare la sicurezza dell’accesso','Memorizzare password','Navigare più veloce','Bloccare la pubblicità']},
+      {p:'Un esempio di 2FA è…', a:'Codice OTP via app/sms', o:['Codice OTP via app/sms','Indovinare una password','Scrivere in maiuscolo','Fare screenshot']}
+    ]; var q=qs[Math.floor(Math.random()*qs.length)]; var o=q.o.slice().sort(()=>Math.random()-0.5);
+    return {name:'Informatica: sicurezza (2FA)', prompt:q.p, choices:o, correct:o.indexOf(q.a)}; };}
+  function genICTPrivacy(){ return function(){
+    var qs=[
+      {p:'Un dato personale è…', a:'Informazione che identifica una persona', o:['Informazione che identifica una persona','Qualsiasi numero','Un file grande','Un colore']},
+      {p:'È buona norma condividere pubblicamente il codice fiscale?', a:'No', o:['No','Sì','Solo a scuola','Dipende dal social']}
+    ]; var q=qs[Math.floor(Math.random()*qs.length)]; var o=q.o.slice().sort(()=>Math.random()-0.5);
+    return {name:'Informatica: dati e privacy', prompt:q.p, choices:o, correct:o.indexOf(q.a)}; };}
+  function genICTCopyright(){ return function(){
+    var qs=[
+      {p:'Per riutilizzare un’immagine è bene verificare…', a:'La licenza (es. Creative Commons)', o:['La licenza (es. Creative Commons)','Il numero di like','La risoluzione','Il colore dominante']},
+      {p:'CC BY richiede di…', a:'Attribuire l’autore', o:['Attribuire l’autore','Pagare sempre','Non condividere','Usare solo offline']}
+    ]; var q=qs[Math.floor(Math.random()*qs.length)]; var o=q.o.slice().sort(()=>Math.random()-0.5);
+    return {name:'Informatica: copyright e licenze', prompt:q.p, choices:o, correct:o.indexOf(q.a)}; };}
+  function genICTEmail(){ return function(){
+    var qs=[
+      {p:'“CC” in una email significa…', a:'Copia conoscenza', o:['Copia conoscenza','Contatto chiuso','Carattere comune','Codice controllato']},
+      {p:'L’oggetto della mail serve a…', a:'Riassumere il contenuto', o:['Riassumere il contenuto','Mettere emoji','Nascondere il messaggio','Inserire link lunghi']}
+    ]; var q=qs[Math.floor(Math.random()*qs.length)]; var o=q.o.slice().sort(()=>Math.random()-0.5);
+    return {name:'Informatica: email e netiquette', prompt:q.p, choices:o, correct:o.indexOf(q.a)}; };}
+  function genICTNetworks(){ return function(){
+    var qs=[
+      {p:'In un URL, “https” indica…', a:'Connessione cifrata', o:['Connessione cifrata','Download automatico','Sito lento','Errore di rete']},
+      {p:'“www.esempio.it/pagina” — “pagina” è…', a:'Il percorso (path)', o:['Il percorso (path)','Il dominio','Il protocollo','La porta']}
+    ]; var q=qs[Math.floor(Math.random()*qs.length)]; var o=q.o.slice().sort(()=>Math.random()-0.5);
+    return {name:'Informatica: reti e web', prompt:q.p, choices:o, correct:o.indexOf(q.a)}; };}
+  function genICTFlowchart(){ return function(){
+    var qs=[
+      {p:'Nel flowchart, il rombo rappresenta…', a:'Una decisione (condizione)', o:['Una decisione (condizione)','L’inizio/fine','Un processo','Un connettore']},
+      {p:'Il simbolo ovale in un flowchart indica…', a:'Inizio/Fine', o:['Inizio/Fine','Ciclo','Dati','Errore']}
+    ]; var q=qs[Math.floor(Math.random()*qs.length)]; var o=q.o.slice().sort(()=>Math.random()-0.5);
+    return {name:'Informatica: algoritmi e flowchart', prompt:q.p, choices:o, correct:o.indexOf(q.a)}; };}
+
   var routeMap = {
     primaria1: { name:'1ª primaria', paths:{
       'Addizioni con cambio (semplici)': [genAddCarry()],
@@ -80,16 +133,28 @@
       'Equazioni di 1° grado': [genEq1()],
       'Percentuali': [genPercent()],
       'Pitagora': [genPitagora()]
+      'Informatica: ricerca avanzata': [genICTSearchOps()],
+      'Informatica: email e netiquette': [genICTEmail()],
+      'Informatica: dati e privacy': [genICTPrivacy()],
+      'Informatica: fogli di calcolo': [genICTSpreadsheet()],
     }},
     media2: { name:'2ª media', paths:{
       'Equazioni di 1° grado': [genEq1()],
       'Pitagora': [genPitagora()],
       'Percentuali': [genPercent()]
+      'Informatica: reti e web': [genICTNetworks()],
+      'Informatica: sicurezza (2FA)': [genICT2FA()],
+      'Informatica: copyright e licenze': [genICTCopyright()],
+      'Informatica: fogli di calcolo': [genICTSpreadsheet()],
     }},
     media3: { name:'3ª media', paths:{
       'Equazioni di 1° grado': [genEq1()],
       'Pitagora': [genPitagora()],
       'Percentuali': [genPercent()]
+      'Informatica: algoritmi e flowchart': [genICTFlowchart()],
+      'Informatica: ricerca avanzata': [genICTSearchOps()],
+      'Informatica: sicurezza (2FA)': [genICT2FA()],
+      'Informatica: reti e web': [genICTNetworks()],
     }},
     liceo1: { name:'1ª liceo', paths:{
       'f(x)=mx+q (valori)': [genLinearFuncValue()],
