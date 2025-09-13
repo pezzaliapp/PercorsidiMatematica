@@ -5,6 +5,20 @@
   function on(el, ev, fn){ if(el && el.addEventListener){ el.addEventListener(ev, fn); } }
 
   // Utils
+  /*__SEEN_MARKER__*/
+  var seenQ = new Set();
+  function resetSeen(){ seenQ.clear(); }
+  function pickUnique(arr){
+    if(arr.length===0) return null;
+    var attempts = 0, q;
+    do { q = arr[Math.floor(Math.random()*arr.length)]; attempts++; }
+    while(seenQ.has(q.p) && attempts < 10);
+    seenQ.add(q.p); return q;
+  }
+  function makeBank(name, items){
+    return function(){ var q = pickUnique(items); var o = q.o.slice(); for(let i=o.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1)); [o[i],o[j]]=[o[j],o[i]];} return {prompt:q.p, choices:o, correct:o.indexOf(q.a)}; };
+  }
+
   function rand(a,b){return Math.floor(Math.random()*(b-a+1))+a;}
   function choice(arr){return arr[rand(0,arr.length-1)];}
   function shuffle(arr){for(var i=arr.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=arr[i];arr[i]=arr[j];arr[j]=t;}return arr;}
@@ -33,18 +47,82 @@
     var opts=['0','1/2','√2/2','√3/2', exact]; var o=[]; while(opts.length){ o.push(opts.splice(rand(0,opts.length-1),1)[0]); }
     return {prompt: which+'('+a+'°) = ?', choices:o, correct:o.indexOf(exact)};};}
   // Generators (informatica)
-  function genInfoMouseKeyboard(){ return function(){ var qs=[{p:'Quale dispositivo muove il puntatore?',a:'Mouse',o:['Mouse','Tastiera','Monitor','Stampante']},{p:'Quale tasto crea uno spazio?',a:'Barra spaziatrice',o:['Barra spaziatrice','Invio','Shift','Esc']}]; var q=qs[rand(0,qs.length-1)]; var o=q.o.slice(); shuffle(o); return {prompt:q.p,choices:o,correct:o.indexOf(q.a)};};}
-  function genInfoFiles(){ return function(){ var qs=[{p:'Quale è un\\'immagine?',a:'.jpg',o:['.jpg','.docx','.pptx','.xlsx']},{p:'Una cartella può contenere…',a:'File e altre cartelle',o:['File e altre cartelle','Solo immagini','Solo testi','Solo programmi']}]; var q=qs[rand(0,qs.length-1)]; var o=q.o.slice(); shuffle(o); return {prompt:q.p,choices:o,correct:o.indexOf(q.a)};};}
-  function genInfoBlocks(){ return function(){ var qs=[{p:'\"Ripeti 10 volte\" è un…',a:'Ciclo (loop)',o:['Ciclo (loop)','Evento','Variabile','Immagine']},{p:'\"Se … allora\" serve per…',a:'Prendere decisioni',o:['Prendere decisioni','Disegnare','Salvare file','Aumentare il volume']}]; var q=qs[rand(0,qs.length-1)]; var o=q.o.slice(); shuffle(o); return {prompt:q.p,choices:o,correct:o.indexOf(q.a)};};}
-  function genInfoNet(){ return function(){ var qs=[{p:'Un browser serve per…',a:'Navigare su internet',o:['Navigare su internet','Stampare','Disegnare','Presentazioni']},{p:'Una ricerca efficace richiede…',a:'Parole chiave',o:['Parole chiave','Emoji','Password','Screenshot']}]; var q=qs[rand(0,qs.length-1)]; var o=q.o.slice(); shuffle(o); return {prompt:q.p,choices:o,correct:o.indexOf(q.a)};};}
+  
+  function genInfoMouseKeyboard(){ return makeBank('ICT: mouse/tastiera',[
+    {p:'Quale dispositivo muove il puntatore?', a:'Mouse', o:['Mouse','Tastiera','Monitor','Stampante']},
+    {p:'Quale tasto crea uno spazio?', a:'Barra spaziatrice', o:['Barra spaziatrice','Invio','Shift','Esc']},
+    {p:'Il tasto INVIO serve per…', a:'Andare a capo o confermare', o:['Andare a capo o confermare','Cancellare','Stampare','Aprire il menu Start']},
+    {p:'Il tasto SHIFT serve per…', a:'Scrivere maiuscole e simboli', o:['Scrivere maiuscole e simboli','Spegnere il PC','Spostare file','Aprire la posta']},
+    {p:'Il doppio clic sul mouse…', a:'Apre un elemento', o:['Apre un elemento','Lo elimina','Lo rinomina','Lo sposta']}
+  ]); }
+  
+  function genInfoFiles(){ return makeBank('ICT: file/cartelle',[
+    {p:'Quale estensione è tipica di un\'immagine?', a:'.jpg', o:['.jpg','.docx','.pptx','.xlsx']},
+    {p:'Una cartella può contenere…', a:'File e altre cartelle', o:['File e altre cartelle','Solo immagini','Solo testi','Solo programmi']},
+    {p:'Un file di testo è tipicamente…', a:'.txt', o:['.txt','.png','.mp3','.zip']},
+    {p:'Per rinominare un file si può…', a:'Clic destro → Rinomina', o:['Clic destro → Rinomina','Spegni/Riavvia','CTRL+ALT+CANC','Stampare il file']},
+    {p:'Il CESTINO serve a…', a:'Conservare file eliminati temporaneamente', o:['Conservare file eliminati temporaneamente','Salvare password','Fare il backup','Pulire lo schermo']}
+  ]); }
+  
+  function genInfoBlocks(){ return makeBank('ICT: coding a blocchi',[
+    {p:'"Ripeti 10 volte" è un…', a:'Ciclo (loop)', o:['Ciclo (loop)','Evento','Variabile','Immagine']},
+    {p:'"Se … allora" serve per…', a:'Prendere decisioni', o:['Prendere decisioni','Disegnare','Salvare file','Aumentare il volume']},
+    {p:'Un\'istruzione di movimento in Scratch è…', a:'Vai a x,y', o:['Vai a x,y','Somma(A,B)','cos(x)','Salva con nome']},
+    {p:'Una variabile in un programma è…', a:'Un contenitore di valori', o:['Un contenitore di valori','Una figura','Un suono','Una cartella']},
+    {p:'L\'evento "quando si clicca bandierina"…', a:'Avvia lo script', o:['Avvia lo script','Salva il progetto','Chiude l\'app','Stampa il codice']}
+  ]); }
+  
+  function genInfoNet(){ return makeBank('ICT: internet/ricerca',[
+    {p:'Un browser serve per…', a:'Navigare su internet', o:['Navigare su internet','Stampare','Disegnare','Presentazioni']},
+    {p:'Per cercare una frase esatta si usano…', a:'Le virgolette " "', o:['Le virgolette " "','Il cancelletto #','Le parentesi ()','L\'asterisco *']},
+    {p:'Un URL inizia con…', a:'http:// o https://', o:['http:// o https://','www://','ftp://solo','file://c:']},
+    {p:'Il lucchetto accanto all\'URL indica…', a:'Connessione sicura (HTTPS)', o:['Connessione sicura (HTTPS)','Volume alto','Batteria carica','Download completato']},
+    {p:'Quale password è più sicura?', a:'Una lunga con lettere, numeri e simboli', o:['Una lunga con lettere, numeri e simboli','Il tuo nome','123456','Password']}
+  ]); }
   // Informatica (Medie/Liceo)
-  function genICTSearchOps(){ return function(){ var qs=[{p:'Per cercare una frase esatta si usano…',a:'Le virgolette \" \"',o:['Le virgolette \" \"','Il cancelletto #','Le parentesi ()','L’asterisco *']},{p:'Quale operatore esclude un termine?',a:'-',o:['-','+','?','~']}]; var q=qs[rand(0,qs.length-1)]; var o=q.o.slice(); shuffle(o); return {prompt:q.p,choices:o,correct:o.indexOf(q.a)};};}
-  function genICT2FA(){ return function(){ var qs=[{p:'La 2FA serve a…',a:'Aumentare la sicurezza',o:['Aumentare la sicurezza','Navigare più veloce','Bloccare pubblicità','Salvare password']}]; var q=qs[0]; var o=q.o.slice(); shuffle(o); return {prompt:q.p,choices:o,correct:o.indexOf(q.a)};};}
-  function genCS_OSvsSW(){ return function(){ var qs=[{p:'Il kernel appartiene a…',a:'Sistema operativo',o:['Sistema operativo','Applicazione','Firmware','Driver video']},{p:'Un driver è…',a:'Software che controlla l’hardware',o:['Software che controlla l’hardware','Una memoria di massa','Un tipo di processore','Una rete privata']}]; var q=qs[rand(0,qs.length-1)]; var o=q.o.slice(); shuffle(o); return {prompt:q.p,choices:o,correct:o.indexOf(q.a)};};}
-  function genCS_NetworksLiceo(){ return function(){ var qs=[{p:'HTTPS usa tipicamente la porta…',a:'443',o:['443','80','21','25']},{p:'Il DNS serve a…',a:'Risoluzione dei nomi in indirizzi IP',o:['Risoluzione dei nomi in indirizzi IP','Criptare i file','Comprimere immagini','Bilanciare il carico']}]; var q=qs[rand(0,qs.length-1)]; var o=q.o.slice(); shuffle(o); return {prompt:q.p,choices:o,correct:o.indexOf(q.a)};};}
-  function genCS_DBConcepts(){ return function(){ var qs=[{p:'In un database relazionale, una riga si chiama…',a:'Tupla/record',o:['Tupla/record','Chiave esterna','Indice','Vista']},{p:'La chiave primaria serve a…',a:'Identificare univocamente i record',o:['Identificare univocamente i record','Criptare i dati','Descrivere il dominio','Unire due tabelle']}]; var q=qs[rand(0,qs.length-1)]; var o=q.o.slice(); shuffle(o); return {prompt:q.p,choices:o,correct:o.indexOf(q.a)};};}
-  function genCS_AlgoComplex(){ return function(){ var qs=[{p:'Un algoritmo in O(n) ha complessità…',a:'Lineare',o:['Lineare','Costante','Quadratica','Esponenziale']},{p:'La “ricorsione” è…',a:'Una funzione che richiama se stessa',o:['Una funzione che richiama se stessa','Un tipo di variabile','Una tabella di database','Una rete privata']}]; var q=qs[rand(0,qs.length-1)]; var o=q.o.slice(); shuffle(o); return {prompt:q.p,choices:o,correct:o.indexOf(q.a)};};}
-  function genCS_SecurityAdv(){ return function(){ var qs=[{p:'Il phishing è…',a:'Tentativo di furto credenziali con messaggi ingannevoli',o:['Tentativo di furto credenziali con messaggi ingannevoli','Un backup online','Una firma digitale','Un firewall hardware']},{p:'L’autenticazione forte può includere…',a:'Biometria o token hardware',o:['Biometria o token hardware','Solo password breve','Cookie pubblicitari','Screenshot di conferma']}]; var q=qs[rand(0,qs.length-1)]; var o=q.o.slice(); shuffle(o); return {prompt:q.p,choices:o,correct:o.indexOf(q.a)};};}
+  
+  function genICTSearchOps(){ return makeBank('ICT: ricerca avanzata',[
+    {p:'Per cercare una frase esatta si usano…', a:'Le virgolette " "', o:['Le virgolette " "','Il cancelletto #','Le parentesi ()','L\'asterisco *']},
+    {p:'Quale operatore esclude un termine?', a:'-', o:['-','+','?','~']},
+    {p:'Quale operatore richiede entrambe le parole?', a:'AND', o:['AND','OR','NEAR','XOR']},
+    {p:'Con quale operatore cerchi almeno uno dei termini?', a:'OR', o:['OR','AND','NOT','NEAR']}
+  ]); }
+  
+  function genICT2FA(){ return makeBank('ICT: sicurezza (2FA)',[
+    {p:'La 2FA serve a…', a:'Aumentare la sicurezza', o:['Aumentare la sicurezza','Navigare più veloce','Bloccare pubblicità','Salvare password']},
+    {p:'Un esempio di 2FA è…', a:'Codice OTP via app', o:['Codice OTP via app','Un\'emoji nel nome','Usare sempre la stessa password','Copiare la password su chat']},
+    {p:'La 2FA può usare…', a:'Notifica push su smartphone', o:['Notifica push su smartphone','Sfondi animati','Giochi online','Screenshot']}
+  ]); }
+  
+  function genCS_OSvsSW(){ return makeBank('ICT: OS vs SW',[
+    {p:'Il kernel appartiene a…', a:'Sistema operativo', o:['Sistema operativo','Applicazione','Firmware','Driver video']},
+    {p:'Un driver è…', a:'Software che controlla l\'hardware', o:['Software che controlla l\'hardware','Una memoria di massa','Un tipo di processore','Una rete privata']},
+    {p:'Esempio di sistema operativo è…', a:'Linux', o:['Linux','Chrome','YouTube','Photoshop']}
+  ]); }
+  
+  function genCS_NetworksLiceo(){ return makeBank('ICT: reti/protocolli',[
+    {p:'HTTPS usa tipicamente la porta…', a:'443', o:['443','80','21','25']},
+    {p:'Il DNS serve a…', a:'Risoluzione dei nomi in indirizzi IP', o:['Risoluzione dei nomi in indirizzi IP','Criptare i file','Comprimere immagini','Bilanciare il carico']},
+    {p:'Il protocollo per la posta in uscita è…', a:'SMTP', o:['SMTP','POP3','IMAP','FTP']}
+  ]); }
+  
+  function genCS_DBConcepts(){ return makeBank('ICT: database',[
+    {p:'In un database relazionale, una riga si chiama…', a:'Tupla/record', o:['Tupla/record','Chiave esterna','Indice','Vista']},
+    {p:'La chiave primaria serve a…', a:'Identificare univocamente i record', o:['Identificare univocamente i record','Criptare i dati','Descrivere il dominio','Unire due tabelle']},
+    {p:'Una relazione 1:N collega…', a:'Un record a molti record', o:['Un record a molti record','N record a N record','Solo record pari','Nessun record']}
+  ]); }
+  
+  function genCS_AlgoComplex(){ return makeBank('ICT: algoritmi/complessità',[
+    {p:'Un algoritmo in O(n) ha complessità…', a:'Lineare', o:['Lineare','Costante','Quadratica','Esponenziale']},
+    {p:'La ricorsione è…', a:'Una funzione che richiama se stessa', o:['Una funzione che richiama se stessa','Un tipo di variabile','Una tabella di database','Una rete privata']},
+    {p:'Una ricerca lineare su n elementi è…', a:'O(n)', o:['O(n)','O(1)','O(log n)','O(n!)']}
+  ]); }
+  
+  function genCS_SecurityAdv(){ return makeBank('ICT: sicurezza avanzata',[
+    {p:'Il phishing è…', a:'Tentativo di furto credenziali con messaggi ingannevoli', o:['Tentativo di furto credenziali con messaggi ingannevoli','Un backup online','Una firma digitale','Un firewall hardware']},
+    {p:'Autenticazione forte: esempio', a:'Biometria o token hardware', o:['Biometria o token hardware','Password breve','Cookie pubblicitari','Screenshot di conferma']},
+    {p:'Un consiglio di sicurezza è…', a:'Usare password lunghe diverse', o:['Usare password lunghe diverse','Inviare password via chat','Usare Wi‑Fi pubblici senza VPN','Cliccare ogni link ricevuto']}
+  ]); }
 
   // Route map
   var routeMap = {
@@ -150,7 +228,7 @@
     currentGradeKey = g.value; currentPathName = p.value;
     var info = routeMap[currentGradeKey];
     currentRoute = info.paths[currentPathName];
-    level=0; stars=0; done=0; total=8;
+    level=0; stars=0; done=0; total=8; resetSeen();
     $('stars').textContent = stars; $('progress').textContent = done; $('total').textContent = total;
     $('levelName').textContent = currentPathName; $('gradeName').textContent = info.name;
     $('intro').classList.add('hidden'); $('summary').classList.add('hidden'); $('game').classList.remove('hidden');
