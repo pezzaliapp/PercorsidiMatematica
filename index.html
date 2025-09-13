@@ -1,36 +1,28 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Percorsi di Matematica — PWA v6.3</title>
-  <link rel="manifest" href="manifest.json">
-  <link rel="icon" sizes="192x192" href="icons/icon-192.png">
-  <meta name="theme-color" content="#0b5fff">
-  <link rel="stylesheet" href="style.css">
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Percorsi di Matematica — PWA v6.3d</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" sizes="192x192" href="icons/icon-192.png">
+<meta name="theme-color" content="#0b5fff">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="statusBar" class="status" style="display:none">
-    Modalità LIM ATTIVA — <button id="updateBtn" class="secondary">Aggiorna App</button>
-  </div>
-  <div id="updateNotice" class="notice" style="display:none">
-    <strong>Nuova versione disponibile.</strong> Aggiornamento in corso…
-  </div>
-
+  <div id="statusBar" class="status" style="display:none">Modalità LIM ATTIVA — <button id="updateBtn" class="secondary">Aggiorna App</button></div>
   <header>
-    <h1>📘 Percorsi di Matematica — PWA v6.3</h1>
+    <h1>📘 Percorsi di Matematica — PWA v6.3d</h1>
     <div class="header-actions">
       <a class="secondary" href="readme.html" target="_blank">Guida</a>
       <button id="limBtn" class="secondary" type="button">Modalità LIM</button>
       <button id="installBtn" hidden>Installa App</button>
     </div>
   </header>
-
   <main>
     <section id="intro" class="card">
       <h2>Seleziona anno e percorso</h2>
       <p class="lead">Ogni <strong>anno</strong> ha <strong>categorie</strong> coerenti con le Indicazioni Nazionali.</p>
-
       <div class="grid2">
         <label>Anno/Grado
           <select id="livello">
@@ -49,12 +41,10 @@
             <option value="liceo5">5ª liceo</option>
           </select>
         </label>
-
         <label>Percorso
           <select id="percorso"></select>
         </label>
       </div>
-
       <div class="actions">
         <button id="playBtn" class="primary" type="button">Inizia l'avventura</button>
         <button id="howBtn" class="secondary" type="button">Come si gioca</button>
@@ -65,8 +55,8 @@
     <section id="howto" class="card hidden">
       <h2>Come si gioca</h2>
       <ul>
-        <li>Leggi la domanda e tocca la risposta corretta.</li>
-        <li>Ogni risposta esatta vale una ⭐.</li>
+        <li>Domande a risposta multipla con 4 opzioni.</li>
+        <li>Ogni risposta esatta vale una ⭐. Obiettivo: 8 domande.</li>
         <li>La <strong>Modalità LIM</strong> ingrandisce testi e pulsanti.</li>
       </ul>
       <button class="secondary" id="backIntro" type="button">Torna</button>
@@ -79,10 +69,8 @@
         <div>Stelle: <span id="stars">0</span></div>
         <div>Progresso: <span id="progress">0</span>/<span id="total">0</span></div>
       </div>
-
       <div id="prompt" class="prompt"></div>
       <div id="choices" class="choices"></div>
-
       <div class="actions">
         <button id="menuBtn" class="secondary" type="button">Menu</button>
         <button id="skipBtn" class="secondary" type="button">Salta (-0.5)</button>
@@ -100,147 +88,32 @@
       </div>
     </section>
   </main>
+  <footer><small>© 2025 PezzaliAPP — PWA educativa.</small></footer>
 
-  <footer>
-    <small>© 2025 PezzaliAPP — PWA educativa.</small>
-  </footer>
-  
-<script id="inline-populator">
-// Inline fallback populator (v6.3a)
-(function(){
-  var UI_ROUTE = {
-    primaria1:['Addizioni con cambio (semplici)','Sottrazioni con prestito (semplici)','Tabelline 2/5/10','Geometria: perimetro','Informatica: mouse e tastiera'],
-    primaria2:['Addizioni con cambio','Sottrazioni con prestito','Tabelline 2/5/10','Geometria: perimetro','Informatica: file e cartelle'],
-    primaria3:['Tabelline complete','Divisioni semplici','Informatica: coding a blocchi','Informatica: Internet e ricerca'],
-    primaria4:['Frazioni equivalenti','Decimali (somma)','Area (rettangolo/triangolo)','Proporzioni semplici','Informatica: Internet e ricerca'],
-    primaria5:['Percentuali','Proporzioni','Volume parallelepipedo','Decimali (somma)','Informatica: sicurezza e file'],
-    media1:['Equazioni di 1° grado','Percentuali','Pitagora','Informatica: ricerca avanzata'],
-    media2:['Equazioni di 1° grado','Percentuali','Pitagora','Informatica: sicurezza (2FA)'],
-    media3:['Equazioni di 1° grado','Percentuali','Pitagora','Informatica: ricerca avanzata'],
-    liceo1:['f(x)=mx+q (valori)','Equazioni di 1° grado','Informatica: sistemi operativi e software'],
-    liceo2:['f(x)=mx+q (valori)','Quadratica (somma radici)','Informatica: reti e protocolli'],
-    liceo3:['Quadratica (somma radici)','Trigonometria (angoli notevoli)','Informatica: basi di dati (concetti)'],
-    liceo4:['Trigonometria (angoli notevoli)','f(x)=mx+q (valori)','Informatica: algoritmi e complessità (base)'],
-    liceo5:['Trigonometria (angoli notevoli)','Quadratica (somma radici)','f(x)=mx+q (valori)','Informatica: sicurezza e privacy (avanzato)']
-  };
-  function $(id){return document.getElementById(id);}
-  function fillPercorsi(){
-    var g=$('livello'), p=$('percorso'); if(!g||!p) return;
-    var list = UI_ROUTE[g.value] || [];
-    p.innerHTML='';
-    list.forEach(function(name){ var o=document.createElement('option'); o.value=name; o.textContent=name; p.appendChild(o); });
-    if (!p.options.length){ var o=document.createElement('option'); o.textContent='(nessun percorso)'; p.appendChild(o); }
-  }
-  document.addEventListener('DOMContentLoaded', function(){
-    fillPercorsi();
-    $('livello').addEventListener('change', fillPercorsi);
-    $('refreshPathsBtn').addEventListener('click', fillPercorsi);
-  });
-  // expose for debug
-  try{ window._uiRoute = UI_ROUTE; window._fillPercorsi = fillPercorsi; }catch(e){}
-})();
-</script>
-
-  
-<script id="inline-fallback-engine">
-// Micro‑engine fallback (v6.3c) — runs if app.js didn't initialize
-(function(){
-  function $(id){return document.getElementById(id);}
-  function on(el,ev,fn){ if(el&&el.addEventListener){ el.addEventListener(ev,fn);} }
-
-  // Simple random helpers
-  function R(a,b){return Math.floor(Math.random()*(b-a+1))+a;}
-  function S(arr){ for(var i=arr.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)); var t=arr[i]; arr[i]=arr[j]; arr[j]=t;} return arr; }
-
-  // Minimal generators set (covers Matematica e Informatica di base)
-  function gAdd(){ var x=R(10,90),y=R(10,90),r=x+y,o=S([r,r+1,r-1,r+10]); return {p:x+' + '+y+' = ?',o:o,i:o.indexOf(r)};}
-  function gSub(){ var x=R(20,99),y=R(10,19),r=x-y,o=S([r,r+1,r-1,r+10]); return {p:x+' - '+y+' = ?',o:o,i:o.indexOf(r)};}
-  function gTab(){ var t=[2,5,10][R(0,2)],b=R(1,10),r=t*b,o=S([r,r+t,r-t,r+R(2,9)]); return {p:t+' × '+b+' = ?',o:o,i:o.indexOf(r)};}
-  function gPerc(){ var p=[10,20,25,50][R(0,3)],n=R(40,400),r=Math.round(n*p/100),o=S([r,r+5,Math.max(0,r-5),r+10]); return {p:p+'% di '+n+' = ?',o:o,i:o.indexOf(r)};}
-  function gPitag(){ var a=[3,5,6,8][R(0,3)], b=[4,12,8,15][R(0,3)], c=Math.round(Math.sqrt(a*a+b*b)), o=S([c,c+1,c-1,c+2]); return {p:'a='+a+', b='+b+' ⇒ c = ?',o:o,i:o.indexOf(c)};}
-  var __seenInfo=new Set(); function gInfo(){ var qs=[{p:'Un browser serve per…',a:'Navigare su internet',o:['Navigare su internet','Stampare','Disegnare','Presentazioni']},{p:'Quale tasto crea uno spazio?',a:'Barra spaziatrice',o:['Barra spaziatrice','Invio','Shift','Esc']},{p:'Per cercare una frase esatta si usano…',a:'Le virgolette " "',o:['Le virgolette " "','Il cancelletto #','Le parentesi ()','L’asterisco *']},{p:'Il lucchetto accanto all\'URL indica…',a:'Connessione sicura (HTTPS)',o:['Connessione sicura (HTTPS)','Batteria carica','Volume alto','Bluetooth attivo']},{p:'Un driver è…',a:'Software che controlla l\'hardware',o:['Software che controlla l\'hardware','Una stampante','Un processore','Un virus']}] var cand=qs.slice(); var q=null; for(var i=0;i<cand.length;i++){ var idx=R(0,cand.length-1); var t=cand.splice(idx,1)[0]; if(!__seenInfo.has(t.p)){ q=t; break; } } if(!q) q=qs[R(0,qs.length-1)]; __seenInfo.add(q.p); var o=q.o.slice(); S(o); return {p:q.p,o:o,i:o.indexOf(q.a)}; }
-
-  // Map percorsi → generator
-  var GEN = {
-    'Addizioni con cambio (semplici)': gAdd,
-    'Addizioni con cambio': gAdd,
-    'Sottrazioni con prestito (semplici)': gSub,
-    'Sottrazioni con prestito': gSub,
-    'Tabelline 2/5/10': gTab,
-    'Tabelline complete': gTab,
-    'Percentuali': gPerc,
-    'Pitagora': gPitag,
-    'Geometria: perimetro': gAdd, // segnaposto semplice
-    'Divisioni semplici': gTab,
-    'Frazioni equivalenti': gAdd,
-    'Decimali (somma)': gAdd,
-    'Area (rettangolo/triangolo)': gAdd,
-    'Proporzioni semplici': gAdd,
-    'Volume parallelepipedo': gAdd,
-    // Informatica
-    'Informatica: mouse e tastiera': gInfo,
-    'Informatica: file e cartelle': gInfo,
-    'Informatica: coding a blocchi': gInfo,
-    'Informatica: Internet e ricerca': gInfo,
-    'Informatica: ricerca avanzata': gInfo,
-    'Informatica: sicurezza (2FA)': gInfo,
-    'Informatica: sistemi operativi e software': gInfo,
-    'Informatica: reti e protocolli': gInfo,
-    'Informatica: basi di dati (concetti)': gInfo,
-    'Informatica: algoritmi e complessità (base)': gInfo,
-    'Informatica: sicurezza e privacy (avanzato)': gInfo
-  };
-
-  function active(){ return !window.startGame; } // if app.js didn't attach handlers
-
-  function start(){
-    var g=$('livello'), p=$('percorso'); if(!g||!p) return;
-    $('intro').classList.add('hidden'); $('summary').classList.add('hidden'); $('game').classList.remove('hidden');
-    $('gradeName').textContent = g.options[g.selectedIndex].textContent;
-    $('levelName').textContent = p.value || p.options[p.selectedIndex].textContent;
-    window.__stars = 0; window.__done = 0; window.__total = 8;
-    $('stars').textContent = 0; $('progress').textContent = 0; $('total').textContent = 8;
-    next(true);
-  }
-
-  function next(reset){
-    var p=$('percorso'); var key=p.value||p.options[p.selectedIndex].textContent; 
-    var gen = GEN[key] || gAdd;
-    var q = gen();
-    $('prompt').textContent = q.p;
-    $('choices').innerHTML='';
-    q.o.forEach(function(txt,idx){
-      var b=document.createElement('button'); b.type='button'; b.className='choice'; b.textContent=String(txt);
-      b.addEventListener('click', function(){
-        var ok = (idx===q.i); b.classList.add(ok?'correct':'wrong');
-        document.querySelectorAll('.choice').forEach(n=>n.disabled=true);
-        if(ok){ window.__stars+=1; window.__done+=1; $('stars').textContent=window.__stars; $('progress').textContent=window.__done; }
-        if(window.__done>=window.__total){ end(); } else { $('nextBtn').classList.remove('hidden'); $('nextBtn').onclick=function(){ $('nextBtn').classList.add('hidden'); next(false); }; }
-      }, {once:true});
-      $('choices').appendChild(b);
-    });
-  }
-
-  function end(){
-    $('game').classList.add('hidden'); $('summary').classList.remove('hidden');
-    $('finalStars').textContent = window.__stars.toFixed(1);
-    $('feedback').textContent = (window.__stars >= window.__total*0.9) ? 'Ottimo lavoro!' : (window.__stars >= window.__total*0.6) ? 'Ben fatto! Continua ad allenarti.' : 'Buon inizio! Riprova.';
-    $('againBtn').onclick = start; $('homeBtn').onclick = function(){ $('summary').classList.add('hidden'); $('intro').classList.remove('hidden'); };
-  }
-
-  // Attach fallback only if app.js non operativo dopo il DOMReady
-  document.addEventListener('DOMContentLoaded', function(){
-    setTimeout(function(){
-      if(active()){
-        on($('playBtn'),'click', start);
-        on($('menuBtn'),'click', function(){ $('game').classList.add('hidden'); $('intro').classList.remove('hidden'); });
-        on($('againBtn'),'click', start);
-        on($('homeBtn'),'click', function(){ $('summary').classList.add('hidden'); $('intro').classList.remove('hidden'); });
-      }
-    }, 120);
-  });
-})();
-</script>
+  <!-- UI populator fallback -->
+  <script>
+  (function(){
+    var UI_ROUTE={
+      primaria1:['Addizioni entro 20','Sottrazioni entro 20','Tabelline 2/5/10 (prime)','Geometria: perimetro (piccoli)','Informatica: mouse e tastiera','Informatica: hardware/software (base)'],
+      primaria2:['Addizioni con riporto (entro 100)','Sottrazioni con prestito (entro 100)','Tabelline 2/3/4/5/10','Geometria: perimetro (rettangoli)','Informatica: file e cartelle','Informatica: hardware/software (base)'],
+      primaria3:['Tabelline complete','Divisioni semplici','Geometria: perimetro (poligoni)','Informatica: coding a blocchi','Informatica: password (base)','Informatica: Internet e ricerca'],
+      primaria4:['Frazioni equivalenti (semplici)','Decimali (somma facile)','Aree: rettangolo/triangolo (piccoli)','Proporzioni semplici','Informatica: Internet e ricerca'],
+      primaria5:['Percentuali di base','Proporzioni','Volume del parallelepipedo (piccoli)','Decimali (somma)','Informatica: sicurezza (password)','Informatica: gestione file'],
+      media1:['Equazioni di 1° grado (semplici)','Percentuali (problemi)','Pitagora (cateti piccoli)','Informatica: ricerca avanzata'],
+      media2:['Equazioni di 1° grado','Percentuali','Pitagora','Informatica: sicurezza (2FA)'],
+      media3:['f(x)=mx+q (valori)','Pitagora e percentuali (misto)','Quadratica (radici — concetto)','Informatica: ricerca avanzata'],
+      liceo1:['f(x)=mx+q (valori)','Equazioni di 1° grado (con parametri)','Informatica: sistemi operativi e software'],
+      liceo2:['Quadratica (somma radici)','f(x)=mx+q (valori)','Informatica: reti e protocolli'],
+      liceo3:['Trigonometria (angoli notevoli)','Quadratica (radici)','Informatica: basi di dati (concetti)'],
+      liceo4:['Trigonometria (angoli notevoli)','f(x)=mx+q (valori)','Informatica: algoritmi e complessità (base)'],
+      liceo5:['Trigonometria (angoli notevoli)','Quadratica (radici)','f(x)=mx+q (valori)','Informatica: sicurezza e privacy (avanzato)']
+    };
+    function $(id){return document.getElementById(id)}
+    function fill(){var p=$('percorso'),g=$('livello'),arr=UI_ROUTE[g.value]||[]; p.innerHTML=''; arr.forEach(n=>{var o=document.createElement('option');o.textContent=n;o.value=n;p.appendChild(o);});}
+    document.addEventListener('DOMContentLoaded',function(){fill();$('livello').addEventListener('change',fill);$('refreshPathsBtn').addEventListener('click',fill);});
+    try{window._uiRoute=UI_ROUTE;}catch(e){}
+  })();
+  </script>
 
   <script src="app.js"></script>
 </body>
