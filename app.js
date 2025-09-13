@@ -97,6 +97,45 @@
     {p:'La crittografia serve a…', a:'Proteggere la confidenzialità dei dati', o:['Proteggere la confidenzialità dei dati','Velocizzare la rete','Comprimere immagini','Stampare documenti']}
   ]); }
 
+  // Legends for paths
+  function getLegendForPath(name){
+    var m = {
+      'Geometria: perimetro (piccoli)': 'Legenda: w = larghezza, h = altezza, P = perimetro (P = 2 × (w + h))',
+      'Geometria: perimetro (rettangoli)': 'Legenda: w = larghezza, h = altezza, P = perimetro (P = 2 × (w + h))',
+      'Geometria: perimetro (poligoni)': 'Legenda: somma di tutti i lati',
+      'Aree: rettangolo/triangolo (piccoli)': 'Legenda: A_rett = b × h; A_tri = (b × h) ÷ 2',
+      'Volume del parallelepipedo (piccoli)': 'Legenda: V = w × h × l',
+      'Tabelline 2/5/10 (prime)': 'Suggerimento: usa salti di 2, 5 o 10',
+      'Tabelline complete': 'Ripasso: 2–10',
+      'Divisioni semplici': 'Ricorda: ÷ = operazione inversa di ×',
+      'Frazioni equivalenti (semplici)': 'Definizione: n/d ≡ (n×k)/(d×k)',
+      'Decimali (somma facile)': 'Allinea la virgola',
+      'Percentuali di base': 'p% di N = (p/100) × N',
+      'Proporzioni': 'a:b = c:d ⇒ a×d = b×c',
+      'Equazioni di 1° grado (semplici)': 'Forma tipica: ax + b = c',
+      'Equazioni di 1° grado': 'Isola la x: ax + b = c',
+      'f(x)=mx+q (valori)': 'f(x) = m×x + q',
+      'Quadratica (somma radici)': 'Per ax²+bx+c=0: somma radici = -b/a',
+      'Quadratica (radici — concetto)': 'Prodotto (c/a) e somma (-b/a) delle radici',
+      'Trigonometria (angoli notevoli)': 'Valori notevoli: 0°, 30°, 45°, 60°, 90°',
+      // Informatica
+      'Informatica: mouse e tastiera': 'Legenda: mouse = puntatore; barra spaziatrice = spazio',
+      'Informatica: hardware/software (base)': 'Hardware = parte fisica; Software = programmi',
+      'Informatica: file e cartelle': 'File = documento; Cartella = contenitore di file',
+      'Informatica: coding a blocchi': 'Sequenze, cicli (ripeti), condizioni (se… allora)',
+      'Informatica: password (base)': 'Password robuste: lunghe + lettere + numeri + simboli',
+      'Informatica: Internet e ricerca': 'Virgolette per frasi esatte; https = connessione sicura',
+      'Informatica: ricerca avanzata': 'Operatori: AND, OR, - (esclusione)',
+      'Informatica: sicurezza (2FA)': '2FA = Autenticazione a due fattori',
+      'Informatica: sistemi operativi e software': 'OS = sistema operativo; kernel/driver/ram',
+      'Informatica: reti e protocolli': 'DNS = nomi→IP; HTTPS porta 443; IPv4 es. 192.168.1.10',
+      'Informatica: basi di dati (concetti)': 'Record/chiavi; SQL = linguaggio di interrogazione',
+      'Informatica: algoritmi e complessità (base)': 'O(1), O(n), O(log n) — crescita della complessità',
+      'Informatica: sicurezza e privacy (avanzato)': 'Phishing, 2FA forte, crittografia = protezione dei dati'
+    };
+    return m[name] || '';
+  }
+
   // ROUTE MAP (aligned)
   var routeMap = {
     primaria1: { name:'1ª primaria', paths:{
@@ -190,8 +229,8 @@
   // Game state + engine
   var currentRoute=[], currentPathName='', currentGradeKey='primaria2', level=0, stars=0, done=0, total=8, currentQuestion=null;
   function populatePaths(){var g=$('livello'),p=$('percorso'); if(!g||!p) return; var info=routeMap[g.value]; p.innerHTML=''; Object.keys(info.paths).forEach(function(name){var o=document.createElement('option');o.value=name;o.textContent=name;p.appendChild(o);});}
-  function startGame(){var g=$('livello'),p=$('percorso'); if(!g||!p||!p.value) return; currentGradeKey=g.value; currentPathName=p.value; var info=routeMap[currentGradeKey]; currentRoute=info.paths[currentPathName]; level=0; stars=0; done=0; total=8; resetSeen(); $('stars').textContent=stars; $('progress').textContent=done; $('total').textContent=total; $('levelName').textContent=currentPathName; $('gradeName').textContent=info.name; $('intro').classList.add('hidden'); $('summary').classList.add('hidden'); $('game').classList.remove('hidden'); nextQuestion(true); window.scrollTo(0,0); }
-  function nextQuestion(resetTitle){$('nextBtn').classList.add('hidden'); $('choices').innerHTML=''; var gen=currentRoute[Math.min(level,currentRoute.length-1)]; currentQuestion=gen(); $('prompt').textContent=currentQuestion.prompt; currentQuestion.choices.forEach(function(c,idx){var btn=document.createElement('button'); btn.type='button'; btn.className='choice'; btn.textContent=String(c); btn.addEventListener('click', function(){ selectChoice(idx, btn); }, {once:true}); $('choices').appendChild(btn);});}
+  function startGame(){var g=$('livello'),p=$('percorso'); if(!g||!p||!p.value) return; currentGradeKey=g.value; currentPathName=p.value; var info=routeMap[currentGradeKey]; currentRoute=info.paths[currentPathName]; level=0; stars=0; done=0; total=8; resetSeen(); $('stars').textContent=stars; $('progress').textContent=done; $('total').textContent=total; $('levelName').textContent=currentPathName; $('legend').textContent = getLegendForPath(currentPathName); $('gradeName').textContent=info.name; $('intro').classList.add('hidden'); $('summary').classList.add('hidden'); $('game').classList.remove('hidden'); nextQuestion(true); window.scrollTo(0,0); }
+  function nextQuestion(resetTitle){$('nextBtn').classList.add('hidden'); $('choices').innerHTML=''; var gen=currentRoute[Math.min(level,currentRoute.length-1)]; currentQuestion=gen(); $('prompt').textContent=currentQuestion.prompt; $('legend').textContent = getLegendForPath(currentPathName); currentQuestion.choices.forEach(function(c,idx){var btn=document.createElement('button'); btn.type='button'; btn.className='choice'; btn.textContent=String(c); btn.addEventListener('click', function(){ selectChoice(idx, btn); }, {once:true}); $('choices').appendChild(btn);});}
   function selectChoice(idx, el){var correct = idx===currentQuestion.correct; el.classList.add(correct?'correct':'wrong'); document.querySelectorAll('.choice').forEach(n=>n.disabled=true); if(correct){stars+=1; done+=1; $('stars').textContent=stars; $('progress').textContent=done;} if(done>=total){ endGame(); } else { if(done%2===0){ level=Math.min(level+1,currentRoute.length-1);} $('nextBtn').classList.remove('hidden'); } }
   function endGame(){ $('game').classList.add('hidden'); $('summary').classList.remove('hidden'); $('finalStars').textContent=stars.toFixed(1); $('feedback').textContent=(stars>=total*0.9)?'Ottimo lavoro!':(stars>=total*0.6)?'Ben fatto! Continua ad allenarti.':'Buon inizio! Riprova.'; }
   // Buttons & UI
